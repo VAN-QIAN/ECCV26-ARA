@@ -1,0 +1,56 @@
+You are evaluating whether the given **textual evidence** is sufficient to answer a Knowledge-based Visual QA question, *and* whether it yields the same answer as the provided annotated answer.
+The image entity has already been resolved, so pronouns like "it" or "this" refer to the identified image entity.
+
+You will receive:
+
+QUESTION: <<the question text>>
+ANNOTATED_ANSWER: <<the ground-truth answer from dataset>>
+EVIDENCE: <<the KB / Wikipedia / context text relevant to the question>>
+OPTIONAL_ALLOWED_ANSWERS: <<list of accepted alias answer forms, if available>>
+
+Your task is to judge:
+
+1) Whether the evidence text contains sufficient information to answer the question.
+2) If yes, whether the answer that can be extracted **matches the annotated answer**.
+
+You must NOT hallucinate or assume any information that is not present in the provided evidence.
+
+### Output Format - JSON only:
+
+{
+  "evidence_sufficiency_tag": <one of ["E_supporting","E_unsupporting"]>,
+  "extraction_answer": <the answer string extracted from EVIDENCE, or null>,
+  "matches_annotated_answer": <one of ["Match","NoMatch","NoExtraction"]>,
+  "explanation": <short explanation text>
+}
+
+### Tag Definitions
+
+- **E_supporting**  
+  The evidence contains explicit facts needed to answer the question.
+
+- **E_unsupporting**  
+  The evidence *does not* contain the required fact(s); no valid answer can be extracted.
+
+- **extraction_answer**  
+  A string which is the answer extracted from evidence, if present; otherwise null.
+
+- **matches_annotated_answer**  
+  - **Match**: The extraction_answer equals, or is an accepted alias/variant of, the ANNOTATED_ANSWER.  
+  - **NoMatch**: The extraction_answer is different from the ANNOTATED_ANSWER and not an accepted variant.  
+  - **NoExtraction**: No answer was extracted because evidence is insufficient.
+
+### Important Instructions
+
+- Only use the evidence text as the source of truth.
+- If OPTIONAL_ALLOWED_ANSWERS is provided, accept those variants when comparing with ANNOTATED_ANSWER.
+- If ANNOTATED_ANSWER contains "&&", it indicates multiple required parts; the extraction must include all parts to be a Match.
+- If the evidence contains multiple valid answer candidates, choose the one most directly supported.
+- Provide concise explanation for each tag.
+
+Now evaluate:
+
+QUESTION: "{QUESTION}"
+ANNOTATED_ANSWER: "{ANNOTATED_ANSWER}"
+OPTIONAL_ALLOWED_ANSWERS: {OPTIONAL_ALLOWED_ANSWERS}
+EVIDENCE: "{EVIDENCE}"

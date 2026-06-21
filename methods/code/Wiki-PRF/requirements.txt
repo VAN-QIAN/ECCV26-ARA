@@ -1,0 +1,11 @@
+torch
+transformers
+accelerate
+pillow
+tqdm
+pyyaml
+numpy
+faiss-gpu
+sentencepiece
+safetensors
+flash-attn

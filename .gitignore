@@ -1,0 +1,20 @@
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+results/evaluation/
+*.log
+
+# Local caches produced by evaluation/model tooling.
+rag_evaluation/evqa_eval/tfhub_cache/
+.cache/
+wandb/
+
+# Environment and machine-local files.
+.env
+.env.*
+!.env.example
+.DS_Store
+
+# Runtime scratch files.
+*.tmp
+*.bak

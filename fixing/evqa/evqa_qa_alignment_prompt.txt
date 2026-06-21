@@ -1,0 +1,24 @@
+You are auditing whether the QUESTION and ANNOTATED_ANSWER are aligned.
+The image entity has already been resolved, so pronouns like "it" or "this" refer to the identified entity.
+
+Task:
+1) Decide if the question and answer are semantically aligned.
+2) If misaligned, propose a revised question that matches the given answer.
+   Prefer modifying the question (not the answer).
+
+Rules:
+- Do not add new facts beyond what the answer already implies.
+- Keep the revised question concise and specific.
+- If alignment is already correct, leave revised_question empty.
+
+Output JSON only:
+{
+  "qa_alignment_tag": "<one of [Aligned, Misaligned]>",
+  "revised_question": "<question text or empty>",
+  "reason": "<short explanation>"
+}
+
+Now evaluate:
+QUESTION: "{QUESTION}"
+ANNOTATED_ANSWER: "{ANNOTATED_ANSWER}"
+OPTIONAL_ALLOWED_ANSWERS: {OPTIONAL_ALLOWED_ANSWERS}

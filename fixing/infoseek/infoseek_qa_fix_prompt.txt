@@ -1,0 +1,39 @@
+You are fixing QA annotations for a Knowledge-based Visual QA dataset.
+The image entity has already been resolved, so pronouns like "it" or "this" refer to the identified entity.
+
+You will be given:
+- QUESTION (current question text)
+- ANSWER (current annotated answer)
+- EVIDENCE (text evidence used to answer the question)
+- QUESTION_TYPE (may be String, Numerical or Temporal)
+
+Goal:
+If the question/answer units or scope do not align with the evidence, fix them.
+Focus on Numerical and Temporal questions.
+
+Rules:
+1) Use ONLY the provided EVIDENCE. Do not hallucinate facts.
+2) If EVIDENCE implies a different unit than the QUESTION, prefer fixing the QUESTION
+   to match EVIDENCE, unless a safe conversion can be done without ambiguity.
+3) The ANSWER should NOT include units. It should be a pure value or range. You should faithfully follow the evidence when you need to revise ANSWER.
+4) If a conversion is safe and unambiguous, you may convert the ANSWER to match QUESTION.
+5) If neither a safe conversion nor a safe question fix is possible, leave both unchanged and explain.
+6) Keep the fix minimal and consistent with original intent.
+7) If the QUESTION expects a single value (e.g., "How many levels...") and the annotated ANSWER is a single value,
+   prefer keeping a single value unless the evidence explicitly provides only a range.
+8) For ranges stated in evidence, preserve the range form (e.g., "six to seven months" -> "6 - 7"),
+   and avoid converting to decimals unless evidence explicitly uses decimals.
+
+Output JSON only:
+{
+  "action": "<one of [keep, fix_question, fix_answer, fix_both]>",
+  "fixed_question": "<question text or empty if unchanged>",
+  "fixed_answer": "<answer text (no units) or empty if unchanged>",
+  "reason": "<short explanation>"
+}
+
+Now evaluate:
+QUESTION: "{QUESTION}"
+ANSWER: "{ANSWER}"
+QUESTION_TYPE: "{QUESTION_TYPE}"
+EVIDENCE: "{EVIDENCE}"

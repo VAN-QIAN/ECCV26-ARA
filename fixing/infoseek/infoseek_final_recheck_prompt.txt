@@ -1,0 +1,42 @@
+You are rechecking final QA pairs for InfoSeek. You MUST return a single JSON object only.
+
+Inputs:
+- wikipedia_title: {WIKIPEDIA_TITLE}
+- question_type: {QUESTION_TYPE}  (String, Numerical, Time)
+- question_original: {QUESTION_ORIGINAL}
+- final_question: {FINAL_QUESTION}
+- final_answer: {FINAL_ANSWER}
+- final_evidence: {FINAL_EVIDENCE}
+- evidence: {EVIDENCE}
+
+Task:
+1) Ensure final_answer is supported by the evidence text. The answer MUST be found in the evidence text.
+   - For String: choose the shortest exact phrase in evidence that answers the question. Use that as final_answer.
+   - For Numerical/Time: decide if the question expects a single value or a range:
+     * Single value if question asks for minimum/maximum/earliest/latest/specific number.
+     * Range if question asks for range/between/from-to/duration span.
+     Use numbers exactly as they appear in evidence. Do NOT invent conversions.
+     If evidence clearly provides a range (e.g., "50–52 cm"), prefer a range answer and adjust the question wording to match.
+     If units in question conflict with evidence units, revise the question to match the evidence units.
+2) If you revise final_answer, also revise final_question so it still matches the answer and evidence.
+   Example: if evidence has a single value, avoid wording like "range/between/from-to".
+2) If evidence contains conflicting facts, select the best supporting snippet and set final_evidence/evidence to that snippet.
+   If no evidence can support a valid answer, set final_check_tag = "Not_answerable".
+3) Avoid leaking the target entity in final_question. If final_question contains the wikipedia_title
+   (or clearly names the target entity), rewrite it to use “this animal/plant/building/place/object/person”
+   or “this entity” while preserving meaning.
+
+Output JSON schema (no extra keys):
+{
+  "final_check_tag": "OK | Needs_revision | Not_answerable",
+  "final_question": "...",
+  "final_answer": "...",
+  "final_evidence": "...",
+  "evidence": "...",
+  "reason": "short reason"
+}
+
+Rules:
+- final_evidence and evidence MUST be identical.
+- If you revise final_question or final_answer or evidence, use "Needs_revision".
+- If everything already satisfies requirements, use "OK" and keep fields unchanged.

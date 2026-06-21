@@ -1,0 +1,38 @@
+{
+  "phase": "prepare",
+  "section_reranker_backend": "bge",
+  "top1_identification_only": false,
+  "test_file": "/data2/QianMa/ECCV26_CameraReady/data/samples/infoseek_fixed_1.csv",
+  "retrieval_results": "/data/qianMa/EchoSight/ECCV_results/EchoSight_reranker_full_InfoSeek_k20_20260213_095859.jsonl",
+  "metadata_path": "/data2/QianMa/ECCV26_CameraReady/outputs/generated_methods/IBA/infoseek/fixed/sample_metadata.jsonl",
+  "examples_seen": 1,
+  "examples_prepared": 1,
+  "skipped": {
+    "no_retrieval": 0,
+    "no_image": 0,
+    "missing_kb": 0,
+    "no_entities": 0,
+    "no_sections": 0
+  },
+  "timing_seconds": {
+    "total": 1.5129035719437525,
+    "examples_total": 1.4162997219827957,
+    "identification": 0.3258472319575958,
+    "identification_scoring": 0.9550928479875438,
+    "section_pool_build": 4.3249980080872774e-05,
+    "section_rerank": 0.13460220396518707,
+    "io_write": 0.00023060000967234373
+  },
+  "avg_seconds": {
+    "per_prepared_example": 1.4162997219827957,
+    "identification_per_prepared_example": 0.3258472319575958,
+    "section_rerank_per_prepared_example": 0.13460220396518707
+  },
+  "throughput_examples_per_sec": 0.6609806590087015,
+  "vllm_image_cache": {
+    "hits": 1,
+    "misses": 1,
+    "size": 1,
+    "capacity": 2048
+  }
+}

@@ -1,0 +1,24 @@
+You are auditing whether the annotated answer is leaked or can be inferred from the question itself.
+The image entity has already been resolved, so pronouns like "it" or "this" refer to the identified entity.
+
+Your task:
+Decide if the annotated answer is:
+- explicitly stated in the question (leak),
+- strongly implied by the question alone without external knowledge (inferrable),
+- or not inferable from the question alone (ok).
+
+Output JSON only:
+{
+  "answer_leak_tag": "<one of [A_leaks, A_inferrable, A_ok]>",
+  "reason": "<short explanation>"
+}
+
+Definitions:
+- A_leaks: The answer (or a close synonym/alias) appears directly in the question text.
+- A_inferrable: If you can directly obtain the answer from the question alone with very general and high-level reasoning
+  e.g., The question is asking "the function of bus line" then it's easy to derive the answer "transportation".
+- A_ok: The answer is not stated and cannot be inferred without external knowledge.
+
+Now evaluate:
+QUESTION: "{QUESTION}"
+ANNOTATED_ANSWER: "{ANNOTATED_ANSWER}"

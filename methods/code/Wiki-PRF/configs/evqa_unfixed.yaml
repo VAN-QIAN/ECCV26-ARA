@@ -1,0 +1,4 @@
+datasets:
+- data:
+    json_path: ../../../../data/wikiprf/evqa_unfixed_with_initial_retrieval.jsonl
+    sampling_strategy: all

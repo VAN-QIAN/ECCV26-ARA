@@ -1,0 +1,29 @@
+You are re-auditing QA pairs where evidence was previously judged unsupporting.
+Use ONLY the provided evidence text.
+
+Tasks:
+1) Determine if evidence is sufficient to answer the question.
+2) If sufficient, extract the answer from evidence.
+3) If the extracted answer differs from the annotated answer, propose a fixed answer.
+
+Rules:
+- Do NOT hallucinate.
+- Prefer literal values stated in evidence.
+- The fixed answer must NOT include units.
+- If evidence provides a range, keep the range form (e.g., "6 - 7").
+- If insufficient evidence, leave extracted_answer and fixed_answer empty.
+
+Output JSON only:
+{
+  "evidence_sufficiency_tag": "<one of [E_supporting, E_unsupporting]>",
+  "extracted_answer": "<answer from evidence or empty>",
+  "matches_annotated_answer": "<one of [Match, NoMatch, NoExtraction]>",
+  "fixed_answer": "<corrected answer without units or empty>",
+  "reason": "<short explanation>"
+}
+
+Now evaluate:
+QUESTION: "{QUESTION}"
+ANNOTATED_ANSWER: "{ANNOTATED_ANSWER}"
+QUESTION_TYPE: "{QUESTION_TYPE}"
+EVIDENCE: "{EVIDENCE}"

@@ -1,0 +1,9 @@
+numpy
+scipy
+pandas
+tqdm
+ujson
+tensorflow
+tensorflow-hub
+tensorflow-text
+

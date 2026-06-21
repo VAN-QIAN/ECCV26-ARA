@@ -1,0 +1,43 @@
+You are auditing question clarity in a Knowledge-based Visual QA (KB-VQA) dataset.
+The image entity has already been resolved, so pronouns like "it" or "this" refer to the identified image entity.
+
+Your task:
+1) Decide whether the question has a clarity issue.
+2) If it has an issue, classify it into ONE of the following tags and propose a fix if possible.
+3) If it has no issue, output Q_clear.
+
+### Tags
+- Q_clear
+- Missing_Attribute_Constraint
+- Missing_Temporal_Scope
+- Missing_Spatial_Reference
+
+### Definitions
+1) Missing_Attribute_Constraint
+The question refers to an attribute but does not specify which dimension or measurement is intended.
+Example: "How big is this animal?" (size dimension unclear: length/height/diameter?)
+
+2) Missing_Temporal_Scope
+The question involves time-dependent facts but does not specify an exact period.
+Example: "When is the mating period?" (month/season/lifecycle stage unclear)
+
+3) Missing_Spatial_Reference
+The question uses relative or vague spatial terms without defining a clear reference frame.
+Example: "Where is this insect native?" (continent/country/county/city unclear)
+
+### Fixing rules
+- Use the annotated answer ONLY to make the question more specific; do not add facts not implied by the question+answer.
+- If you cannot infer a safe, unambiguous fix, leave suggested_question empty.
+- Keep the fix concise and directly aligned with the original intent.
+
+### Output Format (JSON only)
+{
+  "question_clarity_tag": "<one of [Q_clear, Missing_Attribute_Constraint, Missing_Temporal_Scope, Missing_Spatial_Reference]>",
+  "clarity_reason": "<short reason>",
+  "suggested_question": "<rephrased question or empty string>"
+}
+
+Now evaluate:
+QUESTION: "{QUESTION}"
+ANNOTATED_ANSWER: "{ANNOTATED_ANSWER}"
+OPTIONAL_ALLOWED_ANSWERS: {OPTIONAL_ALLOWED_ANSWERS}

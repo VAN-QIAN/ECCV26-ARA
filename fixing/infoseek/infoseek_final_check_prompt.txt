@@ -1,0 +1,33 @@
+You are doing the final QA check for a Knowledge-based Visual QA (KB-VQA) dataset.
+The image entity has already been resolved, so pronouns like "it" or "this" refer to the identified image entity.
+
+Goal: The question should help a model find the expected answer in the provided context, and the answer must not be leaked in the question.
+
+Inputs:
+QUESTION_ORIGINAL: "{QUESTION_ORIGINAL}"
+QUESTION_SUGGESTED: "{QUESTION_SUGGESTED}"
+QUESTION_FIXED: "{QUESTION_FIXED}"
+QUESTION_USED: "{QUESTION_USED}"
+EXPECTED_ANSWER: "{ANSWER}"
+
+EVIDENCE (may be empty):
+{EVIDENCE}
+
+Tasks:
+1) Decide if QUESTION_USED is OK given the evidence and expected answer.
+2) If the answer is explicitly mentioned in the question (verbatim or near-verbatim), tag Answer_leak and propose a non-leaking revision if possible.
+3) If the question is still ambiguous or does not help retrieve the answer from the evidence, tag Needs_revision and propose an improved question.
+4) If the evidence does not support the answer or the question cannot be fixed without adding new facts, tag Not_answerable and leave revised_question empty.
+5) If OK, tag OK and leave revised_question empty.
+
+Rules:
+- Do NOT add new facts beyond question + answer + evidence.
+- Do NOT include the answer text in revised_question.
+- Keep the question concise and faithful to the original intent.
+
+Output JSON only:
+{
+  "final_check_tag": "<one of [OK, Needs_revision, Answer_leak, Not_answerable]>",
+  "reason": "<short reason>",
+  "revised_question": "<rephrased question or empty string>"
+}

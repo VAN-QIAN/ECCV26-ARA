@@ -1,0 +1,41 @@
+evqa:
+  fixed:
+    OurIBA: outputs/raw_methods/evqa/fixed/OurIBA.jsonl
+    OurIBA-Qwen: outputs/raw_methods/evqa/fixed/OurIBA_Qwen.jsonl
+    EchoSight: outputs/raw_methods/evqa/fixed/EchoSight.jsonl
+    ReflectiVA: outputs/raw_methods/evqa/fixed/ReflectiVA.json
+    Wiki-PRF: outputs/raw_methods/evqa/fixed/Wiki_PRF.jsonl
+    CoMEM: outputs/raw_methods/evqa/fixed/CoMEM.jsonl
+    Parameter-LLaVA: outputs/raw_methods/evqa/fixed/Parameter_LLaVA.jsonl
+    Parameter-Qwen: outputs/raw_methods/evqa/fixed/Parameter_Qwen.jsonl
+  unfixed:
+    OurIBA: outputs/raw_methods/evqa/unfixed/OurIBA.jsonl
+    OurIBA-Qwen: outputs/raw_methods/evqa/unfixed/OurIBA_Qwen.jsonl
+    EchoSight: outputs/raw_methods/evqa/unfixed/EchoSight.jsonl
+    ReflectiVA: outputs/raw_methods/evqa/unfixed/ReflectiVA.json
+    Wiki-PRF: outputs/raw_methods/evqa/unfixed/Wiki_PRF.jsonl
+    CoMEM: outputs/raw_methods/evqa/unfixed/CoMEM.jsonl
+    Parameter-LLaVA: outputs/raw_methods/evqa/unfixed/Parameter_LLaVA.jsonl
+    Parameter-Qwen: outputs/raw_methods/evqa/unfixed/Parameter_Qwen.jsonl
+    ReAG7B: outputs/raw_methods/evqa/unfixed/ReAG7B.json
+    CCVQA: outputs/raw_methods/evqa/unfixed/CCVQA.jsonl
+infoseek:
+  fixed:
+    OurIBA: outputs/raw_methods/infoseek/fixed/OurIBA.jsonl
+    OurIBA-Qwen: outputs/raw_methods/infoseek/fixed/OurIBA_Qwen.jsonl
+    EchoSight: outputs/raw_methods/infoseek/fixed/EchoSight.jsonl
+    ReflectiVA: outputs/raw_methods/infoseek/fixed/ReflectiVA
+    Wiki-PRF: outputs/raw_methods/infoseek/fixed/Wiki_PRF.jsonl
+    CoMEM: outputs/raw_methods/infoseek/fixed/CoMEM.jsonl
+    Parameter-LLaVA: outputs/raw_methods/infoseek/fixed/Parameter_LLaVA.jsonl
+    Parameter-Qwen: outputs/raw_methods/infoseek/fixed/Parameter_Qwen.jsonl
+  unfixed:
+    OurIBA: outputs/raw_methods/infoseek/unfixed/OurIBA.jsonl
+    OurIBA-Qwen: outputs/raw_methods/infoseek/unfixed/OurIBA_Qwen.jsonl
+    EchoSight: outputs/raw_methods/infoseek/unfixed/EchoSight.jsonl
+    ReflectiVA: outputs/raw_methods/infoseek/unfixed/ReflectiVA
+    Wiki-PRF: outputs/raw_methods/infoseek/unfixed/Wiki_PRF.jsonl
+    CoMEM: outputs/raw_methods/infoseek/unfixed/CoMEM.jsonl
+    Parameter-LLaVA: outputs/raw_methods/infoseek/unfixed/Parameter_LLaVA.jsonl
+    Parameter-Qwen: outputs/raw_methods/infoseek/unfixed/Parameter_Qwen.jsonl
+

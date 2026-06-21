@@ -1,0 +1,14 @@
+torch
+torchvision
+transformers
+accelerate
+peft
+pillow
+ujson
+tqdm
+spacy
+faiss-gpu
+numpy
+sentencepiece
+protobuf
+safetensors

@@ -1,0 +1,39 @@
+You are auditing a question in a Knowledge-based Visual QA (KB-VQA) dataset.  
+The image entity has already been resolved, so you only need to evaluate the question text itself.
+If the question uses pronouns (e.g., "it", "this"), assume they refer to the identified image entity.
+Example: "this plant" refers to the plant shown in the image entity for the query.
+This step evaluates question quality; the subject is always clear and resolved.
+
+Your task is to determine whether the question is **clearly and specifically defined** such that:
+- It requires external knowledge beyond what can be inferred from generic visual description,
+- It does not lack necessary constraints,
+- It is not ambiguous,
+- It clearly defines a unique knowledge retrieval need.
+
+### Output Format
+Return a JSON object with these fields:
+
+{
+  "question_clarity_tag": <one of ["Q_clear","Q_redundant","Q_under-specified"]>,
+  "clarity_explanation": <short explanation>
+}
+
+### Tag Definitions
+- **Q_clear**
+  - The question uniquely defines a specific knowledge need that cannot be answered from generic visual description alone.
+  - Example: “What year was the building completed?”
+- **Q_redundant**
+  - The question can be answered without needing external knowledge (e.g., identity or obvious visual attribute).
+  - Example: “What animal is shown?”
+- **Q_under-specified**
+  - The question lacks essential constraints and cannot uniquely determine the answer even with knowledge.
+  - Example: “What is its height?” (without context or unit)
+
+### Instructions
+- Only judge clarity and specificity of the question itself
+- For pronouns (e.g., "it", "this"), assuming they refer to the identified image entity so you should not say you are not clear what is the pronouns referring to.
+- Be concise and structured.
+
+Now evaluate the following question:
+
+QUESTION: "{QUESTION}"

@@ -1,0 +1,13 @@
+torch
+torchvision
+transformers
+pillow
+tqdm
+numpy
+pandas
+openai
+requests
+sentencepiece
+accelerate
+protobuf
+qwen-vl-utils
