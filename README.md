@@ -1,27 +1,71 @@
-# Fixing KB-VQA Camera-Ready Repo
+# ARA Camera-Ready Repository
 
-This repository packages the camera-ready artifacts for:
+This repository packages the camera-ready artifacts for
+*Identifying and Resolving Pitfalls of Knowledge-Based VQA Benchmarks:
+Auditing, Repairing, and Augmenting*.
+
+It contains:
 
 - fixed and unfixed E-VQA / InfoSeek evaluation CSVs;
-- augmented multi-entity query CSVs, with image folders kept as placeholders;
-- reusable audit, repair, and augmentation scripts with prompts;
-- one-command scoring scripts for all reported raw method outputs;
-- runnable method wrappers for the method code snapshots kept in this repo.
+- augmented multi-entity query CSVs, with composite images hosted in the
+  HuggingFace dataset repo
+  [`VanQianMa/ECCV26-ARA`](https://huggingface.co/datasets/VanQianMa/ECCV26-ARA);
+- reusable audit, repair, and augmentation tools under `fixing/`;
+- one-command evaluation wrappers under `scripts/evaluation/`;
+- method inference wrappers under `scripts/methods/`, with code snapshots under
+  `methods/`.
 
-Large images, KBs, checkpoints, and full raw generated outputs are not
-duplicated here. The repo keeps placeholders plus a local setup script that can
-materialize machine-local symlinks after cloning.
+Large original images, KB indexes, checkpoints, and full raw method outputs are
+not duplicated in Git. They are materialized locally through
+`configs/paths.env` and `scripts/setup_local_assets.sh`.
 
 ## Quick Start
 
+### 1. Create The Environments
+
+Use one environment for evaluation and one for audit/repair/augmentation tools:
+
 ```bash
-cd ECCV26_CameraReady
+conda create -n KBVQA_eval python=3.10
 conda activate KBVQA_eval
-bash scripts/check_camera_ready.sh
+pip install -r requirements-evaluation.txt
 ```
 
-To enable full method runs or scoring from preserved raw outputs on a local
-machine, configure local assets once:
+```bash
+conda create -n KBVQA_fixing python=3.10
+conda activate KBVQA_fixing
+pip install -r requirements-fixing.txt
+```
+
+Method inference uses method-specific environments. Follow the corresponding
+original repositories or code snapshot READMEs for those dependencies:
+
+| Method | Default wrapper environment |
+| --- | --- |
+| EchoSight | `echosight` |
+| IBA | `echosight` |
+| ReflectiVA | `reflectiva` |
+| CoMEM | `CoMEM` |
+| Wiki-PRF | `echosight` |
+
+### 2. Run a One-Sample Scoring Smoke Test
+
+This only checks that the committed sample outputs can be parsed and scored. It
+does not reproduce the full paper tables.
+
+```bash
+conda activate KBVQA_eval
+bash scripts/evaluation/run_smoke.sh
+```
+
+The summary is written to
+`results/evaluation/smoke/infoseek_fixed/summary.json`.
+
+### 3. Materialize Local Assets For Full Evaluation
+
+Full fixed/unfixed/augmented evaluation expects preserved raw method outputs
+under `outputs/raw_methods/`, plus local KB/image/checkpoint paths. Configure
+those paths once:
 
 ```bash
 cp configs/paths.example.env configs/paths.env
@@ -29,13 +73,31 @@ $EDITOR configs/paths.env
 bash scripts/setup_local_assets.sh
 ```
 
-Run a lightweight scoring smoke test:
+Then run all evaluation splits:
 
 ```bash
-bash scripts/evaluation/run_smoke.sh
+conda activate KBVQA_eval
+bash scripts/evaluation/run_all_evaluations.sh
 ```
 
-Run one real generated-output sample and immediately score it:
+Outputs are written under `results/evaluation/`.
+
+Useful variants:
+
+```bash
+MAX_SAMPLES=100 bash scripts/evaluation/run_all_evaluations.sh
+ALLOW_EXACT_MATCH_FALLBACK=1 bash scripts/evaluation/run_all_evaluations.sh
+```
+
+`MAX_SAMPLES` is useful for a fast dry run. `ALLOW_EXACT_MATCH_FALLBACK=1`
+allows EVQA scoring to proceed without loading the BEM model; use the default
+BEM setting for final reporting.
+
+### 4. Optional: Run One Generated-Output Sample
+
+These commands test method inference wrappers on one example and immediately
+score the generated output. They require the method-specific environments and
+local assets described above.
 
 ```bash
 bash scripts/run_comem_infoseek_sample.sh
@@ -77,15 +139,6 @@ This writes Wiki-PRF outputs under
 directly. The default uses `CUDA_VISIBLE_DEVICES=0,1`; override
 `MODEL_GPU_ID`, `FILTER_GPU_ID`, and `RETRIEVER_GPU_ID` if needed.
 
-After materializing `outputs/raw_methods/`, run all fixed/unfixed/augmented
-scoring:
-
-```bash
-bash scripts/evaluation/run_all_evaluations.sh
-```
-
-Outputs are written under `results/evaluation/`.
-
 ## Data
 
 See `data/README.md` for the full layout.
@@ -126,7 +179,9 @@ Most audit and repair scripts use standard CLI arguments and support small
 ## Method Inference Wrappers
 
 Use these wrappers to run the method code snapshots. Each supports `--dry-run`
-to print the exact command before loading models.
+to print the exact command before loading models. The environments should be
+created from the corresponding original method repo or snapshot README; this
+repository only standardizes the entrypoints and data paths.
 
 | Method | Environment | Wrapper |
 | --- | --- | --- |
@@ -183,5 +238,14 @@ checkpoint directories. IBA preserved raw outputs are configured as explicit
 files through `IBA_EVQA_FIXED_OUTPUT`, `IBA_EVQA_UNFIXED_OUTPUT`,
 `IBA_INFOSEEK_FIXED_OUTPUT`, and `IBA_INFOSEEK_UNFIXED_OUTPUT`.
 
-The paper PDF is not required at runtime and is not treated as a required
-GitHub artifact by `scripts/check_camera_ready.sh`.
+## Maintainer Check
+
+Readers do not need this for normal use. Before pushing a release package, we
+use:
+
+```bash
+bash scripts/check_camera_ready.sh
+```
+
+The check verifies that required public files exist and that large local assets
+remain outside Git.
