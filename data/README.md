@@ -42,8 +42,8 @@ repo. The placeholder directories are:
 - `data/images/augmented/infoseek/composite_images_full_seed3185/method2/`
 
 The `_with_images.csv` files use repository-relative image paths such as
-`images/augmented/evqa/...`. When hosting images on HuggingFace, upload the
-image folders with the same relative layout.
+`images/augmented/evqa/...`. The composite images are hosted in the
+HuggingFace dataset repo `VanQianMa/ECCV26-ARA` with the same relative layout.
 
 Augmented method prediction outputs are not data-source files. They are
 materialized under `../outputs/raw_methods/evqa/augmented/` and

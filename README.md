@@ -99,9 +99,9 @@ Main files:
 - `data/augmented/evqa/evqa_challenging_queries_full_seed3185_with_images.csv`
 - `data/augmented/infoseek/infoseek_challenging_queries_full_seed3185_with_images.csv`
 
-Augmented composite images are intentionally not stored. Placeholder folders are
-under `data/images/augmented/`. The image paths in the augmented CSVs are
-relative paths intended for a HuggingFace dataset repo layout.
+Augmented composite images are intentionally not stored in Git. They are hosted
+in the HuggingFace dataset repo `VanQianMa/ECCV26-ARA` under
+`images/augmented/`, matching the relative paths in the augmented CSVs.
 
 ## Audit, Repair, Augment
 

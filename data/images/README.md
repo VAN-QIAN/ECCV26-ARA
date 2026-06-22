@@ -15,5 +15,5 @@ Expected local links after running `scripts/setup_local_assets.sh`:
 - `reflectiva_infoseek_val_image`
 
 Augmented composite-image placeholders remain under `data/images/augmented/`.
-The augmented CSVs use relative image paths designed to match a HuggingFace
-dataset repo layout.
+The augmented CSVs use relative image paths matching the HuggingFace dataset
+repo `VanQianMa/ECCV26-ARA`.
