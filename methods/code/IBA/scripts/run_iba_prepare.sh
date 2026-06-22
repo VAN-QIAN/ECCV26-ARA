@@ -60,14 +60,14 @@ export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0}"
 
 case "$DATASET" in
   evqa)
-    TEST_FILE="${TEST_FILE:-${CAMERA_READY_ROOT}/data/ground_truth/evqa_fixed_final_check_Feb12.csv}"
-    RETRIEVAL_RESULTS="${RETRIEVAL_RESULTS:-/data/qianMa/EchoSight/ECCV_results/echo_reranker_evqa_k20_20260213_100145.jsonl}"
+    TEST_FILE="${TEST_FILE:-${CAMERA_READY_ROOT}/data/ground_truth/evqa_fixed.csv}"
+    RETRIEVAL_RESULTS="${RETRIEVAL_RESULTS:-${CAMERA_READY_ROOT}/data/retrieval/echosight_reranker_evqa_k20.jsonl}"
     KNOWLEDGE_BASE="${KNOWLEDGE_BASE:-${CAMERA_READY_ROOT}/data/kb/evqa_encyclopedic_kb_wiki.json}"
     METADATA_PATH="${METADATA_PATH:-${OUTPUT_DIR}/evqa_metadata.jsonl}"
     ;;
   infoseek)
-    TEST_FILE="${TEST_FILE:-${CAMERA_READY_ROOT}/data/ground_truth/infoseek_fixed_final_recheck_Feb7.csv}"
-    RETRIEVAL_RESULTS="${RETRIEVAL_RESULTS:-/data/qianMa/EchoSight/ECCV_results/EchoSight_reranker_full_InfoSeek_k20_20260213_095859.jsonl}"
+    TEST_FILE="${TEST_FILE:-${CAMERA_READY_ROOT}/data/ground_truth/infoseek_fixed.csv}"
+    RETRIEVAL_RESULTS="${RETRIEVAL_RESULTS:-${CAMERA_READY_ROOT}/data/retrieval/echosight_reranker_infoseek_k20.jsonl}"
     KNOWLEDGE_BASE="${KNOWLEDGE_BASE:-${CAMERA_READY_ROOT}/data/kb/infoseek_wiki_100_dict_v4.json}"
     METADATA_PATH="${METADATA_PATH:-${OUTPUT_DIR}/infoseek_metadata.jsonl}"
     ;;

@@ -1,19 +1,16 @@
 # Raw Method Outputs
 
-`outputs/raw_methods/` stores or links the preserved model predictions used by
-the scoring scripts. They are organized as:
+`outputs/raw_methods/` is the local mount point for preserved model predictions
+used by the scoring scripts. Git tracks only the directory skeleton; run
+`../scripts/setup_local_assets.sh` after configuring `../configs/paths.env` to
+create local symlinks. The files are organized as:
 
 - `evqa/{fixed,unfixed,augmented}/`
 - `infoseek/{fixed,unfixed,augmented}/`
 
-Fixed/unfixed splits include all preserved baselines. Augmented splits include
-IBA, EchoSight, and Wiki-PRF predictions for `anchor`,
-`augmented_method1`, and `augmented_method2`.
-
-The EVQA-unfixed scorer also knows about legacy CC-VQA and ReAG-7B outputs.
-CC-VQA is linked here. ReAG-7B points to an older `/data3` location that is not
-mounted in this workspace; the scorer treats it as optional and records a skip
-in `results/evaluation/evqa/unfixed/summary.json`.
+Fixed/unfixed splits include the five paper methods: EchoSight, IBA, CoMEM,
+ReflectiVA, and Wiki-PRF. Augmented splits include IBA, EchoSight, and Wiki-PRF
+predictions for `anchor`, `augmented_method1`, and `augmented_method2`.
 
 Scored summaries are written to `../results/evaluation/`.
 

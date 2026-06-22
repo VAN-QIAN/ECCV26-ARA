@@ -1,5 +1,5 @@
 # E-VQA Evidence Check
-- Add a new column for data_id , starting from E-VQA_0 in the original csv file EVQA-fix/test_evqa.csv.
+- Add a new column for data_id , starting from E-VQA_0 in the original csv file fixing/evqa/test_evqa.csv.
 - The KB section coould be too lengthy, may use the original paragraph structures(split by '\n')
 - Some annotated answer could be extremely short, but considering the context provided in the question, it may also be considered as correct.
 - There could be duplicated answers(concated with '|'), which could be removed.

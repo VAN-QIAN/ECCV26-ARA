@@ -19,6 +19,9 @@ from streaming import StreamingDataset
 import base64 
 from tqdm import tqdm
 
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+REPO_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "../../../../.."))
+
 def load_mds(mds_dir):
     dataset = StreamingDataset(local=mds_dir,
                            remote=None,
@@ -31,7 +34,7 @@ def load_mds(mds_dir):
 
 def load_and_process_image(item):
     # Load and preprocess the image
-    path = "/data/qianMa/EchoSight/InfoSeek/infoseek_val/" + item['image_path'].split("/")[-1]
+    path = os.path.join(REPO_ROOT, "data/images/infoseek_val_images", item['image_path'].split("/")[-1])
     raw_image = Image.open(path).convert("RGB")     
     if raw_image.size[0] > 512 or raw_image.size[1] > 512:
         raw_image = raw_image.resize((512, 512), Image.LANCZOS)       
@@ -142,7 +145,7 @@ if __name__ == "__main__":
 
     split2data = {
         "val": "CoMEM-inference/infoseek/val_dataset/infoseek_val.jsonl",
-        "custom": "/data2/QianMa/ECCV/Wiki-PRF/test/infoseek_final_recheck_Feb7.csv",
+        "custom": os.path.join(REPO_ROOT, "data/ground_truth/infoseek_fixed.csv"),
         # "val": "CoMEM-inference/infoseek/Infoseek_test_full",
         "spanish": "CoMEM-inference/infoseek/val_dataset/infoseek_val_spanish.jsonl",
         "portuguese": "CoMEM-inference/infoseek/val_dataset/infoseek_val_portuguese.jsonl",
@@ -153,8 +156,8 @@ if __name__ == "__main__":
 
     # Read the input JSONL file
     print('Read the input JSONL file')
-    batch_data = load_mds("/data2/QianMa/ECCV/CoMEM/CoMEM-inference/infoseek/Custom_test_full")
-    # batch_data = load_mds("/data2/QianMa/ECCV/CoMEM/CoMEM-inference/infoseek/Infoseek_test_full") #split2data['val'])
+    batch_data = load_mds("CoMEM-inference/infoseek/Custom_test_full")
+    # batch_data = load_mds("CoMEM-inference/infoseek/Infoseek_test_full") #split2data['val'])
     if 'jsonl' in split2data[args.split]:
         with open(split2data[args.split], 'r') as f:
             lang_batch_data = [json.loads(line) for line in f]
@@ -173,7 +176,7 @@ if __name__ == "__main__":
         if idx % 10000 == 0:
             print(f"Processing {idx}/{len(batch_data)}")
         qid = item['data_id']
-        path = "/data/qianMa/EchoSight/InfoSeek/infoseek_val/" + item['image_path'].split("/")[-1]
+        path = os.path.join(REPO_ROOT, "data/images/infoseek_val_images", item['image_path'].split("/")[-1])
         # check path exists
         if not os.path.exists(path):
             not_exist.append(qid)

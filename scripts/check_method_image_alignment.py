@@ -32,9 +32,9 @@ except ImportError:  # pragma: no cover - optional dependency
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CSVS = [
-    REPO_ROOT / "data/ground_truth/evqa_fixed_final_check_Feb12.csv",
+    REPO_ROOT / "data/ground_truth/evqa_fixed.csv",
     REPO_ROOT / "data/ground_truth/evqa_unfixed_test_with_id.csv",
-    REPO_ROOT / "data/ground_truth/infoseek_fixed_final_recheck_Feb7.csv",
+    REPO_ROOT / "data/ground_truth/infoseek_fixed.csv",
     REPO_ROOT / "data/ground_truth/infoseek_unfixed_subset.csv",
 ]
 DEFAULT_WIKIPRF_CONFIGS = {
@@ -77,7 +77,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--reflectiva-evqa-manifest",
         type=Path,
-        default=Path("/data/qianMa/ReflectiVA/data_evqa/test_one_hop_Feb14.json"),
+        default=REPO_ROOT / "data/retrieval/reflectiva_evqa_test_one_hop_Feb14.json",
         help="ReflectiVA EVQA JSON manifest containing data_id -> related_images.",
     )
     parser.add_argument(

@@ -24,7 +24,7 @@ from tqdm import tqdm
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 CAMERA_READY_ROOT = SCRIPT_DIR.parents[4]
-DEFAULT_METADATA_PATH = CAMERA_READY_ROOT / "data/ground_truth/evqa_fixed_final_check_Feb12.csv"
+DEFAULT_METADATA_PATH = CAMERA_READY_ROOT / "data/ground_truth/evqa_fixed.csv"
 DEFAULT_MDS_DIR = SCRIPT_DIR / "Custom_test_full"
 
 def load_mds(mds_dir, max_samples=0):
@@ -72,7 +72,7 @@ def resolve_query_image_path(item):
     path = str(path)
     if os.path.exists(path):
         return path
-    # fallback_path = "/data/qianMa/EchoSight/InfoSeek/infoseek_val/" + path.split("/")[-1]
+    # fallback_path = os.path.join(REPO_ROOT, "data/images/infoseek_val_images", path.split("/")[-1])
     # return fallback_path
 
 def load_and_process_image(item):

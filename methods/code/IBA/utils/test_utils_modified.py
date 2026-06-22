@@ -1,18 +1,21 @@
 import csv
 import os
 import json
-GLD_image_path = "/PATH/TO/GLDv2" 
-iNat_image_path = "/PATH/TO/inaturalist"
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parents[4]
+GLD_image_path = str(REPO_ROOT / "data/images/evqa_landmark_images")
+iNat_image_path = str(REPO_ROOT / "data/images/echosight_images")
 # Three steps to get infoseek_test_path
-# 1. according to image id oven_04990048, check /data/qianMa/EchoSight/InfoSeek/infoseek_val.jsonl "data_id": "infoseek_val_00000000", "image_id": "oven_04990048"
-# 2. then according to data_id to get entity id, check /data/qianMa/EchoSight/InfoSeek/infoseek_val_withkb.jsonl {"data_id": "infoseek_val_00000000", "entity_id": "Q178185", "entity_text": "Heat engine"}
-# 3. then according to entity_id to get the image path /data/qianMa/EchoSight/InfoSeek/wikipedia_images_full/Q178/Q178185.jpg/ You will need to locate the full path of the image according to the first 4 characters of entity_id. 
+# 1. according to image id oven_04990048, check data/retrieval/infoseek_val.jsonl
+# 2. then according to data_id to get entity id, check data/retrieval/infoseek_val_withkb.jsonl
+# 3. then according to entity_id to get the image path under data/images/infoseek_wikipedia_images_full
 # infoseek_test_path = "/PATH/TO/InfoSeek/val"
 
-infoseek_base_path = "/data/qianMa/EchoSight/InfoSeek"
+infoseek_base_path = str(REPO_ROOT / "data/retrieval")
 infoseek_val_jsonl = os.path.join(infoseek_base_path, "infoseek_val.jsonl")
-infoseek_val_withkb_jsonl = "/data/qianMa/EchoSight/InfoSeek/infoseek_val_withkb.jsonl"
-infoseek_images_path = "/data/qianMa/EchoSight/InfoSeek/wikipedia_images_full"
+infoseek_val_withkb_jsonl = str(REPO_ROOT / "data/retrieval/infoseek_val_withkb.jsonl")
+infoseek_images_path = str(REPO_ROOT / "data/images/infoseek_wikipedia_images_full")
 
 def load_infoseek_mappings():
     """Load mappings from InfoSeek validation files"""

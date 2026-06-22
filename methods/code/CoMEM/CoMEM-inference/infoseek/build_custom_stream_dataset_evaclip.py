@@ -32,6 +32,9 @@ import requests
 from PIL import Image
 from tqdm import tqdm
 
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+REPO_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "../../../../.."))
+
 
 def _normalize_faiss_root(path: str) -> str:
     if path.endswith(".faiss"):
@@ -339,7 +342,11 @@ def main() -> None:
 
     parser.add_argument("--knowledge_base", required=True, help="Wiki KB json path used by EVA-CLIP retriever.")
     parser.add_argument("--faiss_root", required=True, help="Directory containing kb_index.faiss and kb_index_ids.pkl.")
-    parser.add_argument("--wiki_prf_test_dir", default="/data2/QianMa/ECCV/Wiki-PRF/test", help="Path for importing retriever.py.")
+    parser.add_argument(
+        "--wiki_prf_test_dir",
+        default=os.path.join(REPO_ROOT, "methods/code/Wiki-PRF"),
+        help="Path for importing retriever.py.",
+    )
     parser.add_argument("--gpu_id", type=int, default=0)
     parser.add_argument("--similar_num", type=int, default=10, help="Number of retrieval items in retrieval_info.")
     parser.add_argument("--retrieval_search_k", type=int, default=20, help="Raw top-k before de-dup.")
@@ -355,7 +362,11 @@ def main() -> None:
     parser.add_argument("--infoseek_image_root", default=None, help="Image root for dataset_name=infoseek.")
     parser.add_argument("--landmark_image_root", default=None, help="Image root for dataset_name=landmarks.")
     parser.add_argument("--inaturalist_image_root", default=None, help="Image root for dataset_name=inaturalist.")
-    parser.add_argument("--inat_mapping", default="/data/qianMa/EchoSight/images/val_id2name.json", help="val_id2name.json path.")
+    parser.add_argument(
+        "--inat_mapping",
+        default=os.path.join(REPO_ROOT, "data/images/echosight_inat_val_id2name.json"),
+        help="val_id2name.json path.",
+    )
 
     parser.add_argument("--data_id_field", default="data_id")
     parser.add_argument("--question_field", default="question")

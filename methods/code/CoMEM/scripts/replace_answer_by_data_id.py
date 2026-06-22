@@ -12,10 +12,9 @@ from pathlib import Path
 from typing import Dict, Tuple
 
 
-DEFAULT_TARGET_CSV = "/data2/QianMa/ECCV/infoseek_unfixed_subset.csv"
-DEFAULT_SOURCE_CSV = (
-    "/data2/QianMa/FixKBVQA/InfoSeek-Fix/infoseek_val_grounded_clean_synced_qtype.csv"
-)
+REPO_ROOT = Path(__file__).resolve().parents[4]
+DEFAULT_TARGET_CSV = str(REPO_ROOT / "data/ground_truth/infoseek_unfixed_subset.csv")
+DEFAULT_SOURCE_CSV = str(REPO_ROOT / "data/ground_truth/infoseek_fixed.csv")
 
 
 def infer_default_output(target_csv: str) -> str:

@@ -26,6 +26,10 @@ from .context import SectionReranker, extract_title_from_section
 from .io import build_retrieval_record, iter_examples, load_metadata, load_retrieval_results, write_jsonl
 from .types import ContextRecord, IdentificationRecord, MetadataRecord, RetrievalRecord
 
+_REPO_ROOT = Path(__file__).resolve().parents[4]
+_DEFAULT_INAT_MAPPING_PATH = str(_REPO_ROOT / "data/images/echosight_inat_val_id2name.json")
+_DEFAULT_EVQA_LANDMARK_ROOT = str(_REPO_ROOT / "data/images/evqa_landmark_images")
+
 _QWEN_SPEC = importlib_util.spec_from_file_location(
     "model.qwen_vl",
     Path(__file__).resolve().parent.parent / "model" / "Qwen-vl.py",
@@ -80,9 +84,9 @@ class PipelineConfig:
     answer_backend_vllm_api_key: str = "EMPTY"
     answer_backend_vllm_timeout: float = 120.0
     answer_backend_vllm_model_name: Optional[str] = None
-    inat_mapping_path: Optional[str] = "/data/qianMa/EchoSight/images/val_id2name.json"
+    inat_mapping_path: Optional[str] = _DEFAULT_INAT_MAPPING_PATH
     answer_rerank_sections: bool = False
-    evqa_landmark_root: Optional[str] = "/data/qianMa/EchoSight/E-VQA/landmark"
+    evqa_landmark_root: Optional[str] = _DEFAULT_EVQA_LANDMARK_ROOT
     log_file: Optional[str] = None
     log_level: str = "INFO"
     # Augmented InfoSeek CSV support (composite/anchor images + query variants).
@@ -549,10 +553,14 @@ class QwenVQAPipeline:
             if explicit:
                 return None
         if dataset_name == "infoseek" and image_id:
+            repo_root = Path(__file__).resolve().parents[4]
+            env_root = os.environ.get("INFOSEEK_VAL_IMAGE_ROOT")
             for root in (
-                Path("/data2/QianMa/ECCV26_CameraReady/data/images/infoseek_val_images"),
-                Path("/data/qianMa/EchoSight/InfoSeek/infoseek_val"),
+                Path(env_root) if env_root else None,
+                repo_root / "data/images/infoseek_val_images",
             ):
+                if root is None:
+                    continue
                 for suffix in (".jpg", ".jpeg", ".png", ".JPG", ".JPEG", ".PNG"):
                     candidate = root / f"{image_id}{suffix}"
                     if candidate.exists():

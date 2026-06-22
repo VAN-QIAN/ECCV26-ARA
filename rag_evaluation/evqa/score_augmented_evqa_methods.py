@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Unify EVQA prediction files from multiple methods and run EVQA scoring.
 
-Scoring logic follows /data/qianMa/EchoSight/eval/evqa_eval.py:
+Scoring logic follows the EchoSight `evqa_eval.py` reference:
 - references = answer.split("|")
 - score each example with evqa_utils.evaluate_example(...)
 """
@@ -20,7 +20,7 @@ from typing import Any, Callable, Dict, Iterable, List, Optional, Tuple
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_TEST_FILE = str(REPO_ROOT / "data/ground_truth/evqa_fixed_final_check_Feb12.csv")
+DEFAULT_TEST_FILE = str(REPO_ROOT / "data/ground_truth/evqa_fixed.csv")
 DEFAULT_EVQA_EVAL_ROOT = str(REPO_ROOT / "rag_evaluation/evqa_eval")
 DEFAULT_IBA_ANCHOR_PATH = (
     str(REPO_ROOT / "outputs/raw_methods/evqa/augmented/IBA_anchor.jsonl")
@@ -82,7 +82,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--disable-ouriba-log-fallback",
         action="store_true",
-        help="Disable parsing OurIBA log files when JSONL has no prediction field.",
+        help="Disable parsing IBA log files when JSONL has no prediction field.",
     )
     parser.add_argument(
         "--max-samples",
@@ -493,7 +493,7 @@ def load_ouriba_predictions(
 ) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
     path = Path(source_path)
     if not path.exists():
-        raise FileNotFoundError(f"OurIBA file not found: {path}")
+        raise FileNotFoundError(f"IBA file not found: {path}")
 
     key_candidates = ("prediction", "answer", "final_answer", "raw_response", "answers")
     base_predictions, metadata = load_jsonl_predictions(
@@ -532,7 +532,7 @@ def load_ouriba_predictions(
     metadata["loaded_count_after_fallback"] = len(predictions)
     if not base_predictions and enable_log_fallback and log_predictions_added > 0:
         metadata["warning"] = (
-            "No prediction field found in OurIBA JSONL; used answers parsed from logs."
+            "No prediction field found in IBA JSONL; used answers parsed from logs."
         )
     return predictions, metadata
 

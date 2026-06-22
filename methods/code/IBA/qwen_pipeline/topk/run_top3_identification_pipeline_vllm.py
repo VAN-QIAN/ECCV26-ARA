@@ -9,6 +9,10 @@ from typing import Optional
 from .pipeline import TopKPipelineConfig, TopKQwenPipeline
 from utils import seed_everything
 
+REPO_ROOT = Path(__file__).resolve().parents[5]
+DEFAULT_INAT_MAPPING_PATH = str(REPO_ROOT / "data/images/echosight_inat_val_id2name.json")
+DEFAULT_EVQA_LANDMARK_ROOT = str(REPO_ROOT / "data/images/evqa_landmark_images")
+
 
 def _coalesce_optional_path(value: Optional[str]) -> Optional[str]:
     if value is None:
@@ -137,8 +141,8 @@ def build_parser() -> argparse.ArgumentParser:
     prepare.add_argument("--answer_max_new_tokens", type=int, default=512)
     prepare.add_argument("--require_reasoning", action="store_true")
     prepare.add_argument("--answer_rerank_sections", action="store_true")
-    prepare.add_argument("--inat_mapping_path", type=str, default="/data/qianMa/EchoSight/images/val_id2name.json")
-    prepare.add_argument("--evqa_landmark_root", type=str, default="/data/qianMa/EchoSight/E-VQA/landmark")
+    prepare.add_argument("--inat_mapping_path", type=str, default=DEFAULT_INAT_MAPPING_PATH)
+    prepare.add_argument("--evqa_landmark_root", type=str, default=DEFAULT_EVQA_LANDMARK_ROOT)
     prepare.add_argument(
         "--prepare_timing_summary_path",
         type=str,
@@ -197,8 +201,8 @@ def build_parser() -> argparse.ArgumentParser:
     answer.add_argument("--section_reranker_backend", choices=["auto", "bge"], default="auto")
     answer.add_argument("--section_reranker", type=str, default=None)
     answer.add_argument("--answer_rerank_sections", action="store_true")
-    answer.add_argument("--inat_mapping_path", type=str, default="/data/qianMa/EchoSight/images/val_id2name.json")
-    answer.add_argument("--evqa_landmark_root", type=str, default="/data/qianMa/EchoSight/E-VQA/landmark")
+    answer.add_argument("--inat_mapping_path", type=str, default=DEFAULT_INAT_MAPPING_PATH)
+    answer.add_argument("--evqa_landmark_root", type=str, default=DEFAULT_EVQA_LANDMARK_ROOT)
     answer.add_argument(
         "--answer_timing_summary_path",
         type=str,

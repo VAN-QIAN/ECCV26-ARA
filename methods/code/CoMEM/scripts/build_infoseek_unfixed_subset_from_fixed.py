@@ -22,12 +22,10 @@ from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Set, Tuple
 
 
-DEFAULT_UNFIXED_CSV = "/data/qianMa/EchoSight/infoseek_test_filtered.csv"
-DEFAULT_FIXED_CSV = (
-    "/data2/QianMa/FixKBVQA/InfoSeek-Fix/results_final_check/"
-    "infoseek_final_recheck_Feb7.csv"
-)
-DEFAULT_QTYPE_JSONL = "/data/qianMa/EchoSight/InfoSeek/infoseek_val_qtype.jsonl"
+REPO_ROOT = Path(__file__).resolve().parents[4]
+DEFAULT_UNFIXED_CSV = str(REPO_ROOT / "data/ground_truth/infoseek_unfixed_subset.csv")
+DEFAULT_FIXED_CSV = str(REPO_ROOT / "data/ground_truth/infoseek_fixed.csv")
+DEFAULT_QTYPE_JSONL = str(REPO_ROOT / "data/retrieval/infoseek_val_qtype.jsonl")
 
 
 def normalize_text(text: Optional[str]) -> str:

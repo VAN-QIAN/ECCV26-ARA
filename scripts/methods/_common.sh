@@ -31,9 +31,9 @@ gt_csv_for_split() {
   local dataset="$2"
   local split="$3"
   case "${dataset}:${split}" in
-    evqa:fixed) printf '%s\n' "${root}/data/ground_truth/evqa_fixed_final_check_Feb12.csv" ;;
+    evqa:fixed) printf '%s\n' "${root}/data/ground_truth/evqa_fixed.csv" ;;
     evqa:unfixed) printf '%s\n' "${root}/data/ground_truth/evqa_unfixed_test_with_id.csv" ;;
-    infoseek:fixed) printf '%s\n' "${root}/data/ground_truth/infoseek_fixed_final_recheck_Feb7.csv" ;;
+    infoseek:fixed) printf '%s\n' "${root}/data/ground_truth/infoseek_fixed.csv" ;;
     infoseek:unfixed) printf '%s\n' "${root}/data/ground_truth/infoseek_unfixed_subset.csv" ;;
     *) echo "unsupported dataset/split: ${dataset}/${split}" >&2; exit 1 ;;
   esac

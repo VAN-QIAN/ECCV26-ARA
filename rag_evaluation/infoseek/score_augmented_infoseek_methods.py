@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """Convert multi-method InfoSeek predictions to a unified format and score them.
 
-The scoring logic reuses `score_method_prediction` from
-`compute_score_enhanced_string_with_bem.py`.
+The scoring logic uses answer-reward style matching from `answer_reward_utils.py`.
 """
 
 from __future__ import annotations
@@ -18,16 +17,11 @@ from typing import Any, Callable, Dict, List, Optional, Tuple
 
 import pandas as pd
 
-# try:
-from compute_score_enhanced_string_with_bem import score_method_prediction
-# except ImportError:
-# from rag_evaluation.infoseek.compute_score_enhanced_string_with_bem import (  # type: ignore
-#     score_method_prediction,
-# )
+from answer_reward_utils import SCORING_INFO, score_method_prediction
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_GT_CSV = str(REPO_ROOT / "data/ground_truth/infoseek_fixed_final_recheck_Feb7.csv")
+DEFAULT_GT_CSV = str(REPO_ROOT / "data/ground_truth/infoseek_fixed.csv")
 DEFAULT_IBA_ANCHOR_PATH = (
     str(REPO_ROOT / "outputs/raw_methods/infoseek/augmented/IBA_anchor.jsonl")
 )
@@ -847,6 +841,7 @@ def main() -> None:
         "ground_truth_csv": args.ground_truth_csv,
         "max_samples": int(args.max_samples),
         "gt_count": len(gt_ids),
+        "scoring": SCORING_INFO,
         "methods": {},
     }
     method_names: List[str] = []

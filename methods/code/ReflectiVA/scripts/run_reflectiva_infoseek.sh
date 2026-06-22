@@ -40,7 +40,7 @@ CAMERA_READY_ROOT="$(cd "$METHOD_ROOT/../../.." && pwd)"
 
 MODEL_PATH="${MODEL_PATH:-aimagelab/ReflectiVA}"
 MODEL_NAME="${MODEL_NAME:-llava_llama_3.1}"
-INPUT_CSV="${INPUT_CSV:-$CAMERA_READY_ROOT/data/ground_truth/infoseek_fixed_final_recheck_Feb7.csv}"
+INPUT_CSV="${INPUT_CSV:-$CAMERA_READY_ROOT/data/ground_truth/infoseek_fixed.csv}"
 QUESTION_CSV="${QUESTION_CSV:-$INPUT_CSV}"
 IMAGE_ROOT="${IMAGE_ROOT:-$CAMERA_READY_ROOT/data/images/reflectiva_infoseek_val_image}"
 INDEX_PATH="${INDEX_PATH:-$CAMERA_READY_ROOT/data/kb/KB_infoseek}"

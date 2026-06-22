@@ -3,7 +3,7 @@
 Root-level wrapper:
 
 ```bash
-cd /data2/QianMa/ECCV26_CameraReady
+cd ECCV26_CameraReady
 scripts/methods/run_wikiprf.sh --dataset evqa --split fixed --dry-run
 scripts/methods/run_wikiprf.sh --dataset evqa --split fixed
 ```
@@ -30,7 +30,7 @@ Large JSONL files and checkpoints are referenced by soft links:
 
 ```bash
 conda activate echosight
-cd /data2/QianMa/ECCV26_CameraReady
+cd ECCV26_CameraReady
 ```
 
 Install dependencies only if the environment is missing packages:

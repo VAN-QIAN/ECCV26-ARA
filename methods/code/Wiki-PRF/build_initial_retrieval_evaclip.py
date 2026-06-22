@@ -24,6 +24,7 @@ from PIL import Image
 from tqdm import tqdm
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+REPO_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "../../.."))
 if SCRIPT_DIR not in sys.path:
     sys.path.insert(0, SCRIPT_DIR)
 
@@ -345,7 +346,7 @@ def main() -> None:
     )
     parser.add_argument(
         "--inat_mapping",
-        default="/data/qianMa/EchoSight/images/val_id2name.json",
+        default=os.path.join(REPO_ROOT, "data/images/echosight_inat_val_id2name.json"),
         help="Path to iNaturalist val_id2name.json for CSV dataset_name=inaturalist.",
     )
     parser.add_argument(

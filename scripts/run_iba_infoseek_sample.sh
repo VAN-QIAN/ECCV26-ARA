@@ -7,7 +7,7 @@ source "${ROOT}/scripts/methods/_common.sh"
 
 SAMPLE_SIZE="${SAMPLE_SIZE:-1}"
 SAMPLE_CSV="${SAMPLE_CSV:-${ROOT}/data/samples/infoseek_fixed_1.csv}"
-RETRIEVAL_RESULTS="${RETRIEVAL_RESULTS:-/data/qianMa/EchoSight/ECCV_results/EchoSight_reranker_full_InfoSeek_k20_20260213_095859.jsonl}"
+RETRIEVAL_RESULTS="${RETRIEVAL_RESULTS:-${ROOT}/data/retrieval/echosight_reranker_infoseek_k20.jsonl}"
 OUTPUT_DIR="${OUTPUT_DIR:-${ROOT}/outputs/generated_methods/IBA/infoseek/fixed}"
 METADATA_PATH="${METADATA_PATH:-${OUTPUT_DIR}/sample_metadata.jsonl}"
 ANSWER_PATH="${ANSWER_PATH:-${OUTPUT_DIR}/sample_answers.jsonl}"
@@ -84,7 +84,7 @@ fi
 activate_conda_env KBVQA_eval
 python "${ROOT}/rag_evaluation/infoseek/score_fixed_infoseek_methods.py" \
   --max-samples "${SAMPLE_SIZE}" \
-  --ouriba-path "${ANSWER_PATH}" \
+  --iba-path "${ANSWER_PATH}" \
   --output-dir "${EVAL_DIR}"
 
 printf '\nIBA sample metadata: %s\n' "${METADATA_PATH}"

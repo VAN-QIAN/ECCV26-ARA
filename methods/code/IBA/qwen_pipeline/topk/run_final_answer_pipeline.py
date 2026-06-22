@@ -13,20 +13,20 @@ from utils import seed_everything
 
 from .pipeline import TopKPipelineConfig, TopKQwenPipeline
 
+REPO_ROOT = Path(__file__).resolve().parents[5]
+DEFAULT_INAT_MAPPING_PATH = str(REPO_ROOT / "data/images/echosight_inat_val_id2name.json")
+DEFAULT_EVQA_LANDMARK_ROOT = str(REPO_ROOT / "data/images/evqa_landmark_images")
 
 DATASET_PRESETS: Dict[str, Dict[str, str]] = {
     "evqa": {
-        "csv_path": "/data2/QianMa/FixKBVQA/EVQA_results_final_check/evqa_final_check_Feb12.csv",
-        "metadata_path": "/data/qianMa/EchoSight/ECCV_results/evqa_our_metadata_with_bge_Oct23_1_0.5_0.5.jsonl",
-        "knowledge_base": "/data/qianMa/EchoSight/KB_EVQA/encyclopedic_kb_wiki.json",
+        "csv_path": str(REPO_ROOT / "data/ground_truth/evqa_fixed.csv"),
+        "metadata_path": str(REPO_ROOT / "outputs/generated_methods/IBA/evqa_metadata.jsonl"),
+        "knowledge_base": str(REPO_ROOT / "data/kb/evqa_encyclopedic_kb_wiki.json"),
     },
     "infoseek": {
-        "csv_path": "/data2/QianMa/ECCV/Wiki-PRF/test/infoseek_final_recheck_Feb7.csv",
-        "metadata_path": (
-            "/data/qianMa/EchoSight/ECCV_results/"
-            "infoseek_qwen_top3_identified_rescored_with_retrieval_similarity_with_bge_Oct15_0.5_0.5_1.jsonl"
-        ),
-        "knowledge_base": "/data/qianMa/EchoSight/wiki_100_dict_v4.json",
+        "csv_path": str(REPO_ROOT / "data/ground_truth/infoseek_fixed.csv"),
+        "metadata_path": str(REPO_ROOT / "outputs/generated_methods/IBA/infoseek_metadata.jsonl"),
+        "knowledge_base": str(REPO_ROOT / "data/kb/infoseek_wiki_100_dict_v4.json"),
     },
 }
 
@@ -462,8 +462,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--section_reranker_backend", choices=["auto", "bge"], default="auto")
     parser.add_argument("--section_reranker", type=str, default=None)
     parser.add_argument("--answer_rerank_sections", action="store_true")
-    parser.add_argument("--inat_mapping_path", type=str, default="/data/qianMa/EchoSight/images/val_id2name.json")
-    parser.add_argument("--evqa_landmark_root", type=str, default="/data/qianMa/EchoSight/E-VQA/landmark")
+    parser.add_argument("--inat_mapping_path", type=str, default=DEFAULT_INAT_MAPPING_PATH)
+    parser.add_argument("--evqa_landmark_root", type=str, default=DEFAULT_EVQA_LANDMARK_ROOT)
     parser.add_argument(
         "--answer_timing_summary_path",
         type=str,

@@ -480,11 +480,11 @@ def default_kb_path():
 
 
 def default_output_jsonl_path():
-    return os.path.join("EVQA_results_final_check", "evqa_final_check.jsonl")
+    return os.path.join("results", "fixing", "evqa", "evqa_final_check.jsonl")
 
 
 def default_output_csv_path():
-    return os.path.join("EVQA_results_final_check", "evqa_final_check.csv")
+    return os.path.join("results", "fixing", "evqa", "evqa_final_check.csv")
 
 
 def main():

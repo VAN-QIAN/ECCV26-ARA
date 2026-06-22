@@ -48,13 +48,13 @@ export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0}"
 
 case "$DATASET" in
   evqa)
-    TEST_FILE="${TEST_FILE:-${CAMERA_READY_ROOT}/data/ground_truth/evqa_fixed_final_check_Feb12.csv}"
+    TEST_FILE="${TEST_FILE:-${CAMERA_READY_ROOT}/data/ground_truth/evqa_fixed.csv}"
     RETRIEVAL_RESULTS="${RETRIEVAL_RESULTS:-${OUTPUT_DIR}/evqa_reranker_k20.json}"
     OUTPUT_PATH="${OUTPUT_PATH:-${OUTPUT_DIR}/evqa_answers.jsonl}"
     DATASET_ARGS=()
     ;;
   infoseek)
-    TEST_FILE="${TEST_FILE:-${CAMERA_READY_ROOT}/data/ground_truth/infoseek_fixed_final_recheck_Feb7.csv}"
+    TEST_FILE="${TEST_FILE:-${CAMERA_READY_ROOT}/data/ground_truth/infoseek_fixed.csv}"
     RETRIEVAL_RESULTS="${RETRIEVAL_RESULTS:-${OUTPUT_DIR}/infoseek_reranker_k20.json}"
     OUTPUT_PATH="${OUTPUT_PATH:-${OUTPUT_DIR}/infoseek_answers.jsonl}"
     DATASET_ARGS=(--dataset_name infoseek)

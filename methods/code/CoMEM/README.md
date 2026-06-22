@@ -3,7 +3,7 @@
 For this repository, run CoMEM through the top-level wrapper:
 
 ```bash
-cd /data2/QianMa/ECCV26_CameraReady
+cd ECCV26_CameraReady
 scripts/methods/run_comem.sh --dataset evqa --split fixed --dry-run
 scripts/methods/run_comem.sh --dataset evqa --split fixed
 ```

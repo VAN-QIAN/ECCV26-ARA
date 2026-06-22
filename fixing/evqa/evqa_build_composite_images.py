@@ -4,6 +4,7 @@ import csv
 import json
 import os
 import re
+from pathlib import Path
 from typing import Dict, List
 
 try:
@@ -13,9 +14,10 @@ except Exception:
     ImageOps = None
 
 
-DEFAULT_LANDMARKS_IMAGE_ROOT = "/data/qianMa/EchoSight/E-VQA/landmark"
-DEFAULT_INAT_IMAGE_ROOT = "/data/qianMa/EchoSight/images"
-DEFAULT_INAT_ID2NAME_PATH = "/data/qianMa/EchoSight/images/val_id2name.json"
+REPO_ROOT = Path(__file__).resolve().parents[2]
+DEFAULT_LANDMARKS_IMAGE_ROOT = str(REPO_ROOT / "data/images/evqa_landmark_images")
+DEFAULT_INAT_IMAGE_ROOT = str(REPO_ROOT / "data/images/echosight_images")
+DEFAULT_INAT_ID2NAME_PATH = str(REPO_ROOT / "data/images/echosight_inat_val_id2name.json")
 
 
 def normalize_text(text):

@@ -20,7 +20,7 @@ def main() -> None:
     parser.add_argument(
         "input_csv",
         nargs="?",
-        default="EVQA-fix/results_question_fix/evqa_question_fix.csv",
+        default="fixing/evqa/results_question_fix/evqa_question_fix.csv",
         help="Path to input CSV.",
     )
     parser.add_argument(

@@ -13,7 +13,47 @@ wandb/
 .env
 .env.*
 !.env.example
+configs/paths.env
 .DS_Store
+
+# Local assets are reconstructed with scripts/setup_local_assets.sh.
+data/checkpoints/**
+!data/checkpoints/
+!data/checkpoints/.gitkeep
+!data/checkpoints/README.md
+data/kb/**
+!data/kb/
+!data/kb/.gitkeep
+!data/kb/README.md
+data/retrieval/**
+!data/retrieval/
+!data/retrieval/.gitkeep
+!data/retrieval/README.md
+data/wikiprf/**
+!data/wikiprf/
+!data/wikiprf/.gitkeep
+!data/wikiprf/README.md
+data/images/echosight_images
+data/images/echosight_inat_val_id2name.json
+data/images/evqa_landmark_images
+data/images/evqa_val_images
+data/images/infoseek_val_images
+data/images/infoseek_wikipedia_images_full
+data/images/reflectiva_evqa_inference_images
+data/images/reflectiva_infoseek_val_image
+data/images/augmented/evqa/composite_images_full_seed3185/method1/*
+!data/images/augmented/evqa/composite_images_full_seed3185/method1/.gitkeep
+data/images/augmented/evqa/composite_images_full_seed3185/method2/*
+!data/images/augmented/evqa/composite_images_full_seed3185/method2/.gitkeep
+data/images/augmented/infoseek/composite_images_full_seed3185/method1/*
+!data/images/augmented/infoseek/composite_images_full_seed3185/method1/.gitkeep
+data/images/augmented/infoseek/composite_images_full_seed3185/method2/*
+!data/images/augmented/infoseek/composite_images_full_seed3185/method2/.gitkeep
+outputs/raw_methods/**
+!outputs/raw_methods/
+!outputs/raw_methods/README.md
+!outputs/raw_methods/**/
+!outputs/raw_methods/**/.gitkeep
 
 # Runtime scratch files.
 *.tmp

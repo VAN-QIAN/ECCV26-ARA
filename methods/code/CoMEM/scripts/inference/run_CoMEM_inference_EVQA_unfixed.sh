@@ -1,5 +1,8 @@
 #!/bin/bash
 
+METHOD_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+REPO_ROOT="$(cd "${METHOD_ROOT}/../../.." && pwd)"
+
 # Set the model name and script path according to your needs
 # You can choose the following models:
 # - qwen2
@@ -14,7 +17,7 @@
 # - OVEN: CoMEM-inference/OVEN/run_oven_finetunekv_clip.py
 
 MODEL_NAME='qwen2.5'
-CHECKPOINT_PATH="/data2/QianMa/ECCV/checkpoints/CoMEM" # Change this to your checkpoint path
+CHECKPOINT_PATH="${CHECKPOINT_PATH:-${REPO_ROOT}/data/checkpoints/CoMEM}" # Change this to your checkpoint path
 SCRIPT_PATH="CoMEM-inference/EVQA/run_EVQA_finetunekv_clip_customized_unfixed.py"
 OUTPUT_DIR="CoMEM-inference/EVQA/unfixed_output" # Change this to your desired output directory
 SIMILAR_NUM=10 # Number of relevant image-text pairs to retrieve

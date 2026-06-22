@@ -2,9 +2,9 @@
   "phase": "prepare",
   "section_reranker_backend": "bge",
   "top1_identification_only": false,
-  "test_file": "/data2/QianMa/ECCV26_CameraReady/data/samples/infoseek_fixed_1.csv",
-  "retrieval_results": "/data/qianMa/EchoSight/ECCV_results/EchoSight_reranker_full_InfoSeek_k20_20260213_095859.jsonl",
-  "metadata_path": "/data2/QianMa/ECCV26_CameraReady/outputs/generated_methods/IBA/infoseek/fixed/sample_metadata.jsonl",
+  "test_file": "data/samples/infoseek_fixed_1.csv",
+  "retrieval_results": "data/retrieval/echosight_reranker_infoseek_k20.jsonl",
+  "metadata_path": "outputs/generated_methods/IBA/infoseek/fixed/sample_metadata.jsonl",
   "examples_seen": 1,
   "examples_prepared": 1,
   "skipped": {

@@ -3,6 +3,7 @@ import argparse
 import csv
 import os
 import re
+from pathlib import Path
 from typing import List
 
 try:
@@ -12,7 +13,8 @@ except Exception:
     ImageOps = None
 
 
-DEFAULT_INFOSEEK_IMAGE_ROOT = "/data/qianMa/EchoSight/InfoSeek/infoseek_val"
+REPO_ROOT = Path(__file__).resolve().parents[2]
+DEFAULT_INFOSEEK_IMAGE_ROOT = str(REPO_ROOT / "data/images/infoseek_val_images")
 
 
 def normalize_text(text):

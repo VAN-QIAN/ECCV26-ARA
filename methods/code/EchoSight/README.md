@@ -3,15 +3,15 @@
 Root-level wrapper:
 
 ```bash
-cd /data2/QianMa/ECCV26_CameraReady
+cd ECCV26_CameraReady
 scripts/methods/run_echosight.sh --dataset evqa --split fixed --stage all --dry-run
 scripts/methods/run_echosight.sh --dataset evqa --split fixed --stage all
 ```
 
-This directory is the camera-ready EchoSight-only code split out from
-`/data/qianMa/EchoSight`. The Qwen/TopK IBA code has been moved to
-`../IBA`; this directory keeps the original EchoSight retrieval, multimodal
-reranker, and answer-generation entrypoints only.
+This directory is the camera-ready EchoSight-only code snapshot. The Qwen/TopK
+IBA code has been moved to `../IBA`; this directory keeps the original
+EchoSight retrieval, multimodal reranker, and answer-generation entrypoints
+only.
 
 ## Contents
 
@@ -27,14 +27,14 @@ reranker, and answer-generation entrypoints only.
   generation from saved reranker results.
 
 Large KB files, images, FAISS indices, and checkpoints are not copied here.
-Defaults point to the symlinks in the camera-ready workspace and to the
-EchoSight-hosted checkpoint/FAISS assets.
+Defaults point to local symlinks created from `configs/paths.env` by
+`scripts/setup_local_assets.sh`.
 
 ## Environment
 
 ```bash
 conda activate echosight
-cd /data2/QianMa/ECCV26_CameraReady/methods/code/EchoSight
+cd ECCV26_CameraReady/methods/code/EchoSight
 export PYTHONPATH=$PWD
 ```
 

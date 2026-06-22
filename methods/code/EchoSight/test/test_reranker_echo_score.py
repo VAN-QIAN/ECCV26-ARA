@@ -14,8 +14,10 @@ from model import (
 from utils import load_csv_data, get_test_question, get_image, remove_list_duplicates
 import PIL
 import time
+from pathlib import Path
 
-iNat_image_path = "/data/qianMa/EchoSight/images" #"/PATH/TO/INAT_ID2NAME"
+REPO_ROOT = Path(__file__).resolve().parents[4]
+iNat_mapping_path = REPO_ROOT / "data/images/echosight_inat_val_id2name.json"
 
 
 def eval_recall(candidates, ground_truth, top_ks=[1, 5, 10, 20, 100]):
@@ -36,7 +38,7 @@ def run_test(
 ):
     test_list, test_header = load_csv_data(test_file_path)
     print(f"######\nLoaded {len(test_list)} test examples from {test_file_path}")
-    with open(iNat_image_path + "/val_id2name.json", "r") as f:
+    with open(iNat_mapping_path, "r") as f:
         iNat_id2name = json.load(f)
 
     if kwargs["resume_from"] is not None:

@@ -72,7 +72,7 @@ def resolve_query_image_path(item):
     path = str(path)
     if os.path.exists(path):
         return path
-    # fallback_path = "/data/qianMa/EchoSight/InfoSeek/infoseek_val/" + path.split("/")[-1]
+    # fallback_path = os.path.join(REPO_ROOT, "data/images/infoseek_val_images", path.split("/")[-1])
     # return fallback_path
 
 def load_and_process_image(item):

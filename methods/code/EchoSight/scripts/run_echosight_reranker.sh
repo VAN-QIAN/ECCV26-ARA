@@ -45,19 +45,19 @@ OUTPUT_DIR="${OUTPUT_DIR:-${CAMERA_READY_ROOT}/outputs/generated_methods/EchoSig
 RETRIEVAL_TOP_K="${RETRIEVAL_TOP_K:-20}"
 TOP_KS="${TOP_KS:-1,2,3,5,10,20}"
 RETRIEVER_VIT="${RETRIEVER_VIT:-eva-clip}"
-QFORMER_CKPT_PATH="${QFORMER_CKPT_PATH:-/data/qianMa/EchoSight/reranker.pth}"
+QFORMER_CKPT_PATH="${QFORMER_CKPT_PATH:-${CAMERA_READY_ROOT}/data/checkpoints/EchoSight/reranker.pth}"
 # test_reranker_echo_score.py uses cuda:0 for QFormer and cuda:1 for CLIP.
 export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0,1}"
 
 case "$DATASET" in
   evqa)
-    TEST_FILE="${TEST_FILE:-${CAMERA_READY_ROOT}/data/ground_truth/evqa_fixed_final_check_Feb12.csv}"
+    TEST_FILE="${TEST_FILE:-${CAMERA_READY_ROOT}/data/ground_truth/evqa_fixed.csv}"
     KNOWLEDGE_BASE="${KNOWLEDGE_BASE:-${CAMERA_READY_ROOT}/data/kb/evqa_encyclopedic_kb_wiki.json}"
     FAISS_INDEX="${FAISS_INDEX:-${CAMERA_READY_ROOT}/data/kb/KB_EVQA/root/FAISS_INDEX/EVA-CLIP_2/evqa_index_full}"
     SAVE_RESULT_PATH="${SAVE_RESULT_PATH:-${OUTPUT_DIR}/evqa_reranker_k${RETRIEVAL_TOP_K}.json}"
     ;;
   infoseek)
-    TEST_FILE="${TEST_FILE:-${CAMERA_READY_ROOT}/data/ground_truth/infoseek_fixed_final_recheck_Feb7.csv}"
+    TEST_FILE="${TEST_FILE:-${CAMERA_READY_ROOT}/data/ground_truth/infoseek_fixed.csv}"
     KNOWLEDGE_BASE="${KNOWLEDGE_BASE:-${CAMERA_READY_ROOT}/data/kb/infoseek_wiki_100_dict_v4.json}"
     FAISS_INDEX="${FAISS_INDEX:-${CAMERA_READY_ROOT}/data/kb/KB_infoseek}"
     SAVE_RESULT_PATH="${SAVE_RESULT_PATH:-${OUTPUT_DIR}/infoseek_reranker_k${RETRIEVAL_TOP_K}.json}"

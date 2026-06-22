@@ -1,8 +1,11 @@
 import csv
 import os
-GLD_image_path = "/data/qianMa/EchoSight/E-VQA/landmark" 
-iNat_image_path = "/data/qianMa/EchoSight/images"
-infoseek_test_path = "/data/qianMa/EchoSight/InfoSeek/infoseek_val"
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parents[4]
+GLD_image_path = str(REPO_ROOT / "data/images/evqa_landmark_images")
+iNat_image_path = str(REPO_ROOT / "data/images/echosight_images")
+infoseek_test_path = str(REPO_ROOT / "data/images/infoseek_val_images")
 
 def get_image(image_id, dataset_name, iNat_id2name=None):
     """_summary_
@@ -29,10 +32,10 @@ def get_image(image_id, dataset_name, iNat_id2name=None):
             print(f"Found InfoSeek image at: {image_path}")
             return image_path
     return None
-        
+
     # else:
     #     raise NotImplementedError("dataset name not supported")
-    
+
 
 def load_csv_data(test_file):
     test_list = []
@@ -40,8 +43,8 @@ def load_csv_data(test_file):
         reader = csv.reader(f)
         test_header = next(reader)
         for row in reader:
-            try: 
-                if (row[test_header.index("question_type")] == "automatic" or row[test_header.index("question_type")] == "templated" or row[test_header.index("question_type")] == "multi_answer" or row[test_header.index("question_type")] == "infoseek" or row[test_header.index("question_type")] == "String" or row[test_header.index("question_type")] == "Numerical" or row[test_header.index("question_type")] == "Time"): 
+            try:
+                if (row[test_header.index("question_type")] == "automatic" or row[test_header.index("question_type")] == "templated" or row[test_header.index("question_type")] == "multi_answer" or row[test_header.index("question_type")] == "infoseek" or row[test_header.index("question_type")] == "String" or row[test_header.index("question_type")] == "Numerical" or row[test_header.index("question_type")] == "Time"):
                     test_list.append(row)
             except:
                 # print row and line number
@@ -57,4 +60,4 @@ def remove_list_duplicates(test_list):
     # remove duplicates
     seen = set()
     return [x for x in test_list if not (x in seen or seen.add(x))]
-    
+

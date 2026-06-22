@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Unify EVQA prediction files from multiple methods and run EVQA scoring.
 
-Scoring logic follows /data/qianMa/EchoSight/eval/evqa_eval.py:
+Scoring logic follows the EchoSight `evqa_eval.py` reference:
 - references = answer.split("|")
 - score each example with evqa_utils.evaluate_example(...)
 """
@@ -22,17 +22,10 @@ from typing import Any, Callable, Dict, Iterable, List, Optional, Tuple
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_TEST_FILE = str(REPO_ROOT / "data/ground_truth/evqa_unfixed_test_with_id.csv")
 DEFAULT_EVQA_EVAL_ROOT = str(REPO_ROOT / "rag_evaluation/evqa_eval")
-DEFAULT_OURIBA_PATH = (
-    str(REPO_ROOT / "outputs/raw_methods/evqa/unfixed/OurIBA.jsonl")
-)
-DEFAULT_OURIBA_QWEN_PATH = (
-    str(REPO_ROOT / "outputs/raw_methods/evqa/unfixed/OurIBA_Qwen.jsonl")
+DEFAULT_IBA_PATH = (
+    str(REPO_ROOT / "outputs/raw_methods/evqa/unfixed/IBA.jsonl")
 )
 DEFAULT_ECHOSIGHT_PATH = str(REPO_ROOT / "outputs/raw_methods/evqa/unfixed/EchoSight.jsonl")
-# DEFAULT_REFLECTIVA_PATH = (
-#     "/data/qianMa/ReflectiVA/output/Reflectiva_evqa_echo_kb_eva_index_I2I/"
-#     "split_0_test_one_hop_Feb14_k5.json"
-# )
 DEFAULT_REFLECTIVA_PATH = (
     str(REPO_ROOT / "outputs/raw_methods/evqa/unfixed/ReflectiVA.json")
 )
@@ -41,19 +34,6 @@ DEFAULT_WIKIPRF_PATH = (
 )
 DEFAULT_COMEM_PATH = (
     str(REPO_ROOT / "outputs/raw_methods/evqa/unfixed/CoMEM.jsonl")
-)
-DEFAULT_PARAMETER_LLAVA_PATH = (
-    str(REPO_ROOT / "outputs/raw_methods/evqa/unfixed/Parameter_LLaVA.jsonl")
-)
-DEFAULT_PARAMETER_QWEN_PATH = (
-    str(REPO_ROOT / "outputs/raw_methods/evqa/unfixed/Parameter_Qwen.jsonl")
-)
-DEFAULT_ReAG7B_PATH = (
-    # "/data3/QianMa1/ReAG/results/evqa__ReAG-7B__with_retrieval__echosight_kb_eva_clip_8b_top20__passages_eval_thr_01__reasoning_forced__all_filtered/split_0.json"
-    str(REPO_ROOT / "outputs/raw_methods/evqa/unfixed/ReAG7B.json")
-)
-DEFAULT_CCVQA_PATH = (
-    str(REPO_ROOT / "outputs/raw_methods/evqa/unfixed/CCVQA.jsonl")
 )
 DEFAULT_OUTPUT_DIR = str(REPO_ROOT / "results/evaluation/evqa/unfixed")
 VALID_QUESTION_TYPES = {"automatic", "templated", "multi_answer", "infoseek"}
@@ -76,21 +56,16 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--test-file", default=DEFAULT_TEST_FILE)
     parser.add_argument("--evqa-eval-root", default=DEFAULT_EVQA_EVAL_ROOT)
-    parser.add_argument("--ouriba-path", default=DEFAULT_OURIBA_PATH)
-    parser.add_argument("--ouriba-qwen-path", default=DEFAULT_OURIBA_QWEN_PATH)
+    parser.add_argument("--iba-path", "--ouriba-path", dest="iba_path", default=DEFAULT_IBA_PATH)
     parser.add_argument("--echosight-path", default=DEFAULT_ECHOSIGHT_PATH)
     parser.add_argument("--reflectiva-path", default=DEFAULT_REFLECTIVA_PATH)
-    parser.add_argument("--reag7b-path", default=DEFAULT_ReAG7B_PATH)
     parser.add_argument("--wikiprf-path", default=DEFAULT_WIKIPRF_PATH)
-    parser.add_argument("--ccvqa-path", default=DEFAULT_CCVQA_PATH)
     parser.add_argument("--comem-path", default=DEFAULT_COMEM_PATH)
-    parser.add_argument("--parameter-llava-path", default=DEFAULT_PARAMETER_LLAVA_PATH)
-    parser.add_argument("--parameter-qwen-path", default=DEFAULT_PARAMETER_QWEN_PATH)
     parser.add_argument("--output-dir", default=DEFAULT_OUTPUT_DIR)
     parser.add_argument(
         "--disable-ouriba-log-fallback",
         action="store_true",
-        help="Disable parsing OurIBA log files when JSONL has no prediction field.",
+        help="Disable parsing IBA log files when JSONL has no prediction field.",
     )
     parser.add_argument(
         "--max-samples",
@@ -442,7 +417,7 @@ def load_ouriba_predictions(
 ) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
     path = Path(source_path)
     if not path.exists():
-        raise FileNotFoundError(f"OurIBA file not found: {path}")
+        raise FileNotFoundError(f"IBA file not found: {path}")
 
     key_candidates = ("prediction", "answer", "final_answer", "raw_response", "answers")
     base_predictions, metadata = load_jsonl_predictions(
@@ -481,7 +456,7 @@ def load_ouriba_predictions(
     metadata["loaded_count_after_fallback"] = len(predictions)
     if not base_predictions and enable_log_fallback and log_predictions_added > 0:
         metadata["warning"] = (
-            "No prediction field found in OurIBA JSONL; used answers parsed from logs."
+            "No prediction field found in IBA JSONL; used answers parsed from logs."
         )
     return predictions, metadata
 
@@ -706,17 +681,12 @@ def main() -> None:
 
     methods: List[MethodConfig] = [
         MethodConfig(
-            name="OurIBA",
-            source_path=args.ouriba_path,
+            name="IBA",
+            source_path=args.iba_path,
             loader=lambda p: load_ouriba_predictions(
                 p,
                 enable_log_fallback=not args.disable_ouriba_log_fallback,
             ),
-        ),
-        MethodConfig(
-            name="OurIBA-Qwen",
-            source_path=args.ouriba_qwen_path,
-            loader=lambda p: load_jsonl_predictions(p, prediction_keys=("prediction",)),
         ),
         MethodConfig(
             name="EchoSight",
@@ -729,19 +699,8 @@ def main() -> None:
             loader=lambda p: load_reflectiva_predictions(p),
         ),
         MethodConfig(
-            name="ReAG-7B",
-            source_path=args.reag7b_path,
-            loader=lambda p: load_reflectiva_predictions(p),
-            optional=True,
-        ),
-        MethodConfig(
             name="Wiki-PRF",
             source_path=args.wikiprf_path,
-            loader=lambda p: load_jsonl_predictions(p, prediction_keys=("prediction",)),
-        ),
-        MethodConfig(
-            name="CC-VQA",
-            source_path=args.ccvqa_path,
             loader=lambda p: load_jsonl_predictions(p, prediction_keys=("prediction",)),
         ),
         MethodConfig(
@@ -752,16 +711,6 @@ def main() -> None:
                 prediction_keys=("prediction",),
                 postprocess=extract_final_answer_text,
             ),
-        ),
-        MethodConfig(
-            name="Parameter-LLaVA",
-            source_path=args.parameter_llava_path,
-            loader=lambda p: load_jsonl_predictions(p, prediction_keys=("prediction",)),
-        ),
-        MethodConfig(
-            name="Parameter-Qwen",
-            source_path=args.parameter_qwen_path,
-            loader=lambda p: load_jsonl_predictions(p, prediction_keys=("prediction",)),
         ),
     ]
 

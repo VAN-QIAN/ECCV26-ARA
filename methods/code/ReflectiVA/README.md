@@ -3,7 +3,7 @@
 Root-level wrapper:
 
 ```bash
-cd /data2/QianMa/ECCV26_CameraReady
+cd ECCV26_CameraReady
 scripts/methods/run_reflectiva.sh --dataset evqa --split fixed --dry-run
 scripts/methods/run_reflectiva.sh --dataset evqa --split fixed
 ```
@@ -45,7 +45,7 @@ conda activate reflectiva
 ## Run EVQA
 
 ```bash
-cd /data2/QianMa/ECCV26_CameraReady/methods/code/ReflectiVA
+cd ECCV26_CameraReady/methods/code/ReflectiVA
 bash scripts/run_reflectiva_evqa.sh --dry-run
 bash scripts/run_reflectiva_evqa.sh
 ```
@@ -62,7 +62,7 @@ For SLURM arrays, keep the original convention: `PART` is the current split id a
 ## Run InfoSeek
 
 ```bash
-cd /data2/QianMa/ECCV26_CameraReady/methods/code/ReflectiVA
+cd ECCV26_CameraReady/methods/code/ReflectiVA
 bash scripts/run_reflectiva_infoseek.sh --dry-run
 bash scripts/run_reflectiva_infoseek.sh
 ```

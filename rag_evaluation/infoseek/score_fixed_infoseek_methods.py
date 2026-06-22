@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """Convert multi-method InfoSeek predictions to a unified format and score them.
 
-The scoring logic reuses `score_method_prediction` from
-`compute_score_enhanced_string_with_bem.py`.
+The scoring logic uses answer-reward style matching from `answer_reward_utils.py`.
 """
 
 from __future__ import annotations
@@ -18,25 +17,16 @@ from typing import Any, Callable, Dict, List, Optional, Tuple
 
 import pandas as pd
 
-# try:
-from compute_score_enhanced_string_with_bem import score_method_prediction
-# except ImportError:
-# from rag_evaluation.infoseek.compute_score_enhanced_string_with_bem import (  # type: ignore
-#     score_method_prediction,
-# )
+from answer_reward_utils import SCORING_INFO, score_method_prediction
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_GT_CSV = str(REPO_ROOT / "data/ground_truth/infoseek_fixed_final_recheck_Feb7.csv")
-DEFAULT_OURIBA_PATH = str(REPO_ROOT / "outputs/raw_methods/infoseek/fixed/OurIBA.jsonl")
-DEFAULT_OURIBA_QWEN_PATH = str(REPO_ROOT / "outputs/raw_methods/infoseek/fixed/OurIBA_Qwen.jsonl")
+DEFAULT_GT_CSV = str(REPO_ROOT / "data/ground_truth/infoseek_fixed.csv")
+DEFAULT_IBA_PATH = str(REPO_ROOT / "outputs/raw_methods/infoseek/fixed/IBA.jsonl")
 DEFAULT_ECHOSIGHT_PATH = str(REPO_ROOT / "outputs/raw_methods/infoseek/fixed/EchoSight.jsonl")
 DEFAULT_REFLECTIVA_DIR = str(REPO_ROOT / "outputs/raw_methods/infoseek/fixed/ReflectiVA")
-# DEFAULT_WIKIPRF_PATH = "/data2/QianMa/ECCV/Wiki-PRF/results_infoseek_test_step600_Feb14_test_topk3.json_0_generation_details.jsonl"
 DEFAULT_WIKIPRF_PATH = str(REPO_ROOT / "outputs/raw_methods/infoseek/fixed/Wiki_PRF.jsonl")
 DEFAULT_COMEM_PATH = str(REPO_ROOT / "outputs/raw_methods/infoseek/fixed/CoMEM.jsonl")
-DEFAULT_PARAMETER_LLAVA_PATH = str(REPO_ROOT / "outputs/raw_methods/infoseek/fixed/Parameter_LLaVA.jsonl")
-DEFAULT_PARAMETER_QWEN_PATH = str(REPO_ROOT / "outputs/raw_methods/infoseek/fixed/Parameter_Qwen.jsonl")
 DEFAULT_OUTPUT_DIR = str(REPO_ROOT / "results/evaluation/infoseek/fixed")
 
 
@@ -55,18 +45,15 @@ def parse_args() -> argparse.Namespace:
         )
     )
     parser.add_argument("--ground-truth-csv", default=DEFAULT_GT_CSV)
-    parser.add_argument("--ouriba-path", default=DEFAULT_OURIBA_PATH)
-    parser.add_argument("--ouriba-qwen-path", default=DEFAULT_OURIBA_QWEN_PATH)
+    parser.add_argument("--iba-path", "--ouriba-path", dest="iba_path", default=DEFAULT_IBA_PATH)
     parser.add_argument("--echosight-path", default=DEFAULT_ECHOSIGHT_PATH)
     parser.add_argument("--reflectiva-dir", default=DEFAULT_REFLECTIVA_DIR)
     parser.add_argument("--wikiprf-path", default=DEFAULT_WIKIPRF_PATH)
     parser.add_argument("--comem-path", default=DEFAULT_COMEM_PATH)
-    parser.add_argument("--parameter-llava-path", default=DEFAULT_PARAMETER_LLAVA_PATH)
-    parser.add_argument("--parameter-qwen-path", default=DEFAULT_PARAMETER_QWEN_PATH)
     parser.add_argument("--output-dir", default=DEFAULT_OUTPUT_DIR)
     parser.add_argument(
         "--anchor-method",
-        default="OurIBA",
+        default="IBA",
         help=(
             "Anchor method used as the first dimension for combination buckets. "
             "All methods are still considered (2^N buckets)."
@@ -697,13 +684,8 @@ def main() -> None:
 
     methods: List[MethodConfig] = [
         MethodConfig(
-            name="OurIBA",
-            source_path=args.ouriba_path,
-            loader=lambda p: load_jsonl_predictions(p),
-        ),
-        MethodConfig(
-            name="OurIBA-Qwen",
-            source_path=args.ouriba_qwen_path,
+            name="IBA",
+            source_path=args.iba_path,
             loader=lambda p: load_jsonl_predictions(p),
         ),
         MethodConfig(
@@ -729,22 +711,13 @@ def main() -> None:
                 postprocess=extract_final_answer_text,
             ),
         ),
-        MethodConfig(
-            name="Parameter-LLaVA",
-            source_path=args.parameter_llava_path,
-            loader=lambda p: load_jsonl_predictions(p),
-        ),
-        MethodConfig(
-            name="Parameter-Qwen",
-            source_path=args.parameter_qwen_path,
-            loader=lambda p: load_jsonl_predictions(p),
-        ),
     ]
 
     summary: Dict[str, Any] = {
         "ground_truth_csv": args.ground_truth_csv,
         "max_samples": int(args.max_samples),
         "gt_count": len(gt_ids),
+        "scoring": SCORING_INFO,
         "methods": {},
     }
     method_names: List[str] = []

@@ -3,15 +3,15 @@
 Root-level wrapper:
 
 ```bash
-cd /data2/QianMa/ECCV26_CameraReady
+cd ECCV26_CameraReady
 scripts/methods/run_iba.sh --dataset evqa --split fixed --stage all --dry-run
 scripts/methods/run_iba.sh --dataset evqa --split fixed --stage all
 ```
 
-This directory is the camera-ready IBA code split out from
-`/data/qianMa/EchoSight`. It contains the Qwen2.5-VL entity identification,
+This directory is the camera-ready IBA code snapshot used for the paper. It
+contains the Qwen2.5-VL entity identification,
 TopK entity expansion, BGE section reranking, and final answer-generation
-pipeline used for the `OurIBA` outputs. The EchoSight baseline code is in
+pipeline used for the IBA outputs. The EchoSight baseline code is in
 `../EchoSight`.
 
 ## Contents
@@ -35,7 +35,7 @@ by path. They are not copied into this directory.
 
 ```bash
 conda activate echosight
-cd /data2/QianMa/ECCV26_CameraReady/methods/code/IBA
+cd ECCV26_CameraReady/methods/code/IBA
 export PYTHONPATH=$PWD
 ```
 
@@ -65,9 +65,8 @@ Important overrides:
 
 ## Generate Answers
 
-If `METADATA_PATH` is not set, the script first looks for metadata produced by
-`run_iba_prepare.sh`; if absent, it falls back to the evaluated metadata files
-under `/data/qianMa/EchoSight/ECCV_results`.
+If `METADATA_PATH` is not set, the script uses metadata produced by
+`run_iba_prepare.sh` under `outputs/generated_methods/IBA/`.
 
 ```bash
 bash scripts/run_iba_answer.sh --dataset evqa --dry-run

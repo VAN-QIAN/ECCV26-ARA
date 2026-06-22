@@ -24,7 +24,7 @@ from tqdm import tqdm
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 CAMERA_READY_ROOT = SCRIPT_DIR.parents[4]
-DEFAULT_METADATA_PATH = CAMERA_READY_ROOT / "data/ground_truth/infoseek_fixed_final_recheck_Feb7.csv"
+DEFAULT_METADATA_PATH = CAMERA_READY_ROOT / "data/ground_truth/infoseek_fixed.csv"
 DEFAULT_MDS_DIR = SCRIPT_DIR / "Custom_test_full"
 DEFAULT_IMAGE_ROOT = CAMERA_READY_ROOT / "data/images/infoseek_val_images"
 

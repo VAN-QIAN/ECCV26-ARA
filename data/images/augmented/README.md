@@ -3,7 +3,12 @@
 Composite augmented images are not stored in this repository. Keep this folder
 structure and materialize images only when running augmented-image experiments.
 
-Source image roots:
+The augmented CSV files use relative image paths intended for a HuggingFace
+dataset repo layout:
 
-- EVQA: `/data2/QianMa/FixKBVQA/EVQA_results_final_check/composite_images_full_seed3185/`
-- InfoSeek: `/data2/QianMa/FixKBVQA/InfoSeek-Fix/results_final_check/composite_images_full_seed3185/`
+- `images/augmented/evqa/composite_images_full_seed3185/method1/`
+- `images/augmented/evqa/composite_images_full_seed3185/method2/`
+- `images/augmented/infoseek/composite_images_full_seed3185/method1/`
+- `images/augmented/infoseek/composite_images_full_seed3185/method2/`
+
+Upload composite images to the HuggingFace dataset repo with that same layout.

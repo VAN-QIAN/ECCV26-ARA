@@ -56,18 +56,16 @@ export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0}"
 
 case "$DATASET" in
   evqa)
-    CSV_PATH="${CSV_PATH:-${CAMERA_READY_ROOT}/data/ground_truth/evqa_fixed_final_check_Feb12.csv}"
+    CSV_PATH="${CSV_PATH:-${CAMERA_READY_ROOT}/data/ground_truth/evqa_fixed.csv}"
     KNOWLEDGE_BASE="${KNOWLEDGE_BASE:-${CAMERA_READY_ROOT}/data/kb/evqa_encyclopedic_kb_wiki.json}"
     GENERATED_METADATA="${OUTPUT_DIR}/evqa_metadata.jsonl"
-    EVALUATED_METADATA="/data/qianMa/EchoSight/ECCV_results/evqa_our_metadata_with_bge_Oct23_1_0.5_0.5.jsonl"
     OUTPUT_PATH="${OUTPUT_PATH:-${OUTPUT_DIR}/evqa_answers.jsonl}"
     ALIGNED_METADATA_PATH="${ALIGNED_METADATA_PATH:-${OUTPUT_DIR}/evqa_aligned_metadata.jsonl}"
     ;;
   infoseek)
-    CSV_PATH="${CSV_PATH:-${CAMERA_READY_ROOT}/data/ground_truth/infoseek_fixed_final_recheck_Feb7.csv}"
+    CSV_PATH="${CSV_PATH:-${CAMERA_READY_ROOT}/data/ground_truth/infoseek_fixed.csv}"
     KNOWLEDGE_BASE="${KNOWLEDGE_BASE:-${CAMERA_READY_ROOT}/data/kb/infoseek_wiki_100_dict_v4.json}"
     GENERATED_METADATA="${OUTPUT_DIR}/infoseek_metadata.jsonl"
-    EVALUATED_METADATA="/data/qianMa/EchoSight/ECCV_results/infoseek_qwen_top3_identified_rescored_with_retrieval_similarity_with_bge_Oct15_0.5_0.5_1.jsonl"
     OUTPUT_PATH="${OUTPUT_PATH:-${OUTPUT_DIR}/infoseek_answers.jsonl}"
     ALIGNED_METADATA_PATH="${ALIGNED_METADATA_PATH:-${OUTPUT_DIR}/infoseek_aligned_metadata.jsonl}"
     ;;
@@ -78,11 +76,7 @@ case "$DATASET" in
 esac
 
 if [[ -z "${METADATA_PATH:-}" ]]; then
-  if [[ -e "$GENERATED_METADATA" ]]; then
-    METADATA_PATH="$GENERATED_METADATA"
-  else
-    METADATA_PATH="$EVALUATED_METADATA"
-  fi
+  METADATA_PATH="$GENERATED_METADATA"
 fi
 
 CMD=(

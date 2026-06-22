@@ -1,4 +1,4 @@
-# EVQA-fix 使用说明（代码功能梳理 + 推荐修复流程）
+# fixing/evqa 使用说明（代码功能梳理 + 推荐修复流程）
 
 本目录包含一套用于修复 E-VQA（EVQA）标注质量的问题审计与修复脚本，主要覆盖：
 
@@ -9,7 +9,7 @@
 - 最终问题/答案/证据的整合检查
 - 修复后挑战查询（challenging queries）与拼图图像构建（可选）
 
-本文档基于 `EVQA-fix` 目录脚本的实际实现整理，重点说明每个脚本的核心功能、输入输出列依赖，以及推荐的使用顺序。
+本文档基于 `fixing/evqa` 目录脚本的实际实现整理，重点说明每个脚本的核心功能、输入输出列依赖，以及推荐的使用顺序。
 
 ## 1. 目录里哪些脚本是“核心”
 
@@ -74,7 +74,7 @@ export OPENAI_API_KEY="your-key"
 
 ### 2.3 KB 文件（重要）
 
-默认 KB 文件是 `EVQA-fix/encyclopedic_kb_wiki.json`（当前目录下文件非常大）。
+默认 KB 文件是 `fixing/evqa/encyclopedic_kb_wiki.json`（当前目录下文件非常大）。
 
 注意：
 
@@ -107,7 +107,7 @@ export OPENAI_API_KEY="your-key"
 以下流程假设你在仓库根目录运行：
 
 ```bash
-cd /data2/QianMa/FixKBVQA
+cd ECCV26_CameraReady
 ```
 
 ### Step 1. 给原始 EVQA CSV 补 `data_id`
@@ -122,9 +122,9 @@ cd /data2/QianMa/FixKBVQA
 示例：
 
 ```bash
-python EVQA-fix/evqa_add_data_id.py \
-  --input-csv EVQA-fix/test_evqa.csv \
-  --output-csv EVQA-fix/test_evqa_with_id.csv
+python fixing/evqa/evqa_add_data_id.py \
+  --input-csv fixing/evqa/test_evqa.csv \
+  --output-csv fixing/evqa/test_evqa_with_id.csv
 ```
 
 ### Step 2. 审计 question 清晰度并建议修复（主入口）
@@ -158,11 +158,11 @@ python EVQA-fix/evqa_add_data_id.py \
 示例（推荐先小批量试跑）：
 
 ```bash
-python EVQA-fix/evqa_question_fix_audit.py \
-  --input-csv EVQA-fix/test_evqa_with_id.csv \
+python fixing/evqa/evqa_question_fix_audit.py \
+  --input-csv fixing/evqa/test_evqa_with_id.csv \
   --question-column auto \
-  --output-jsonl EVQA-fix/results_question_fix/evqa_question_fix.jsonl \
-  --output-csv EVQA-fix/results_question_fix/evqa_question_fix.csv \
+  --output-jsonl fixing/evqa/results_question_fix/evqa_question_fix.jsonl \
+  --output-csv fixing/evqa/results_question_fix/evqa_question_fix.csv \
   --provider openai_compat \
   --model qwen3 \
   --resume \
@@ -187,9 +187,9 @@ python EVQA-fix/evqa_question_fix_audit.py \
 示例：
 
 ```bash
-python EVQA-fix/evqa_fix_short_evidence_newlines.py \
-  EVQA-fix/results_question_fix/evqa_question_fix.csv \
-  -o EVQA-fix/results_question_fix/evqa_question_fix.fixed.csv
+python fixing/evqa/evqa_fix_short_evidence_newlines.py \
+  fixing/evqa/results_question_fix/evqa_question_fix.csv \
+  -o fixing/evqa/results_question_fix/evqa_question_fix.fixed.csv
 ```
 
 ### Step 4. 审计证据是否支持答案（建议跑）
@@ -224,11 +224,11 @@ python EVQA-fix/evqa_fix_short_evidence_newlines.py \
 示例：
 
 ```bash
-python EVQA-fix/evqa_evidence_supporting_audit.py \
-  --input-csv EVQA-fix/results_question_fix/evqa_question_fix.fixed.csv \
+python fixing/evqa/evqa_evidence_supporting_audit.py \
+  --input-csv fixing/evqa/results_question_fix/evqa_question_fix.fixed.csv \
   --question-column auto \
-  --output-jsonl EVQA-fix/results_evidence_supporting/evqa_evidence_supporting.jsonl \
-  --output-csv EVQA-fix/results_evidence_supporting/evqa_evidence_supporting.csv \
+  --output-jsonl fixing/evqa/results_evidence_supporting/evqa_evidence_supporting.jsonl \
+  --output-csv fixing/evqa/results_evidence_supporting/evqa_evidence_supporting.csv \
   --provider openai_compat \
   --model qwen3 \
   --resume
@@ -262,8 +262,8 @@ python EVQA-fix/evqa_evidence_supporting_audit.py \
 示例：
 
 ```bash
-python EVQA-fix/evqa_qa_alignment_audit.py \
-  --input-csv EVQA-fix/results_question_fix/evqa_question_fix.fixed.csv \
+python fixing/evqa/evqa_qa_alignment_audit.py \
+  --input-csv fixing/evqa/results_question_fix/evqa_question_fix.fixed.csv \
   --question-column auto \
   --resume
 ```
@@ -285,8 +285,8 @@ python EVQA-fix/evqa_qa_alignment_audit.py \
 示例：
 
 ```bash
-python EVQA-fix/evqa_answer_leak_audit.py \
-  --input-csv EVQA-fix/results_question_fix/evqa_question_fix.fixed.csv \
+python fixing/evqa/evqa_answer_leak_audit.py \
+  --input-csv fixing/evqa/results_question_fix/evqa_question_fix.fixed.csv \
   --question-column auto \
   --resume
 ```
@@ -344,23 +344,23 @@ python EVQA-fix/evqa_answer_leak_audit.py \
 示例（推荐）：
 
 ```bash
-python EVQA-fix/evqa_final_check.py \
-  --input-csv EVQA-fix/results_evidence_supporting/evqa_evidence_supporting.csv \
+python fixing/evqa/evqa_final_check.py \
+  --input-csv fixing/evqa/results_evidence_supporting/evqa_evidence_supporting.csv \
   --question-column auto \
-  --output-jsonl EVQA_results_final_check/evqa_final_check.jsonl \
-  --output-csv EVQA_results_final_check/evqa_final_check.csv \
+  --output-jsonl results/fixing/evqa/evqa_final_check.jsonl \
+  --output-csv results/fixing/evqa/evqa_final_check.csv \
   --provider openai_compat \
   --model deepseek-chat \
   --resume
 ```
 
-如果你没有跑 Step 4，也可以直接输入 `EVQA-fix/results_question_fix/evqa_question_fix.fixed.csv`。
+如果你没有跑 Step 4，也可以直接输入 `fixing/evqa/results_question_fix/evqa_question_fix.fixed.csv`。
 
 如果你希望连 `Q_clear` 也全部重新检查：
 
 ```bash
-python EVQA-fix/evqa_final_check.py \
-  --input-csv EVQA-fix/results_evidence_supporting/evqa_evidence_supporting.csv \
+python fixing/evqa/evqa_final_check.py \
+  --input-csv fixing/evqa/results_evidence_supporting/evqa_evidence_supporting.csv \
   --question-column auto \
   --no-skip-q-clear
 ```
@@ -380,7 +380,7 @@ python EVQA-fix/evqa_final_check.py \
 
 常见输入来源：
 
-- `EVQA_results_final_check/evqa_final_check.csv`
+- `results/fixing/evqa/evqa_final_check.csv`
 
 输出会包含（示例列）：
 
@@ -393,9 +393,9 @@ python EVQA-fix/evqa_final_check.py \
 示例：
 
 ```bash
-python EVQA-fix/evqa_generate_challenging_queries.py \
-  --input-csv EVQA_results_final_check/evqa_final_check.csv \
-  --output-csv EVQA_results_final_check/evqa_challenging_queries_seed3185.csv \
+python fixing/evqa/evqa_generate_challenging_queries.py \
+  --input-csv results/fixing/evqa/evqa_final_check.csv \
+  --output-csv results/fixing/evqa/evqa_challenging_queries_seed3185.csv \
   --num-samples 100 \
   --seed 3185
 ```
@@ -422,11 +422,11 @@ python EVQA-fix/evqa_generate_challenging_queries.py \
 示例：
 
 ```bash
-python EVQA-fix/evqa_build_composite_images.py \
-  --challenging-csv EVQA_results_final_check/evqa_challenging_queries_seed3185.csv \
-  --source-csv EVQA_results_final_check/evqa_final_check.csv \
-  --output-csv EVQA_results_final_check/evqa_challenging_queries_seed3185_with_images.csv \
-  --output-image-dir EVQA_results_final_check/composite_images_seed3185
+python fixing/evqa/evqa_build_composite_images.py \
+  --challenging-csv results/fixing/evqa/evqa_challenging_queries_seed3185.csv \
+  --source-csv results/fixing/evqa/evqa_final_check.csv \
+  --output-csv results/fixing/evqa/evqa_challenging_queries_seed3185_with_images.csv \
+  --output-image-dir results/fixing/evqa/composite_images_seed3185
 ```
 
 ## 6. 旧版/补充脚本功能说明（如需复现实验）
@@ -537,33 +537,33 @@ pip install pillow
 ## 9. 推荐最小可跑命令序列（从原始 EVQA 到 final check）
 
 ```bash
-cd /data2/QianMa/FixKBVQA
+cd ECCV26_CameraReady
 
 # 1) 加 data_id
-python EVQA-fix/evqa_add_data_id.py \
-  --input-csv EVQA-fix/test_evqa.csv \
-  --output-csv EVQA-fix/test_evqa_with_id.csv
+python fixing/evqa/evqa_add_data_id.py \
+  --input-csv fixing/evqa/test_evqa.csv \
+  --output-csv fixing/evqa/test_evqa_with_id.csv
 
 # 2) 问题修复审计（生成 suggested_question / short_evidence）
-python EVQA-fix/evqa_question_fix_audit.py \
-  --input-csv EVQA-fix/test_evqa_with_id.csv \
+python fixing/evqa/evqa_question_fix_audit.py \
+  --input-csv fixing/evqa/test_evqa_with_id.csv \
   --question-column auto \
   --resume
 
 # 3) 清理 short_evidence 换行（可选）
-python EVQA-fix/evqa_fix_short_evidence_newlines.py \
-  EVQA-fix/results_question_fix/evqa_question_fix.csv \
-  -o EVQA-fix/results_question_fix/evqa_question_fix.fixed.csv
+python fixing/evqa/evqa_fix_short_evidence_newlines.py \
+  fixing/evqa/results_question_fix/evqa_question_fix.csv \
+  -o fixing/evqa/results_question_fix/evqa_question_fix.fixed.csv
 
 # 4) 证据支持性审计（建议）
-python EVQA-fix/evqa_evidence_supporting_audit.py \
-  --input-csv EVQA-fix/results_question_fix/evqa_question_fix.fixed.csv \
+python fixing/evqa/evqa_evidence_supporting_audit.py \
+  --input-csv fixing/evqa/results_question_fix/evqa_question_fix.fixed.csv \
   --question-column auto \
   --resume
 
 # 5) 最终检查（生成最终修复版）
-python EVQA-fix/evqa_final_check.py \
-  --input-csv EVQA-fix/results_evidence_supporting/evqa_evidence_supporting.csv \
+python fixing/evqa/evqa_final_check.py \
+  --input-csv fixing/evqa/results_evidence_supporting/evqa_evidence_supporting.csv \
   --question-column auto \
   --resume
 ```

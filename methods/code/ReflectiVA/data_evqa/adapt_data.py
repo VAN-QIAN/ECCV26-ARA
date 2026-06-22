@@ -8,7 +8,7 @@ from typing import Dict, Iterable, Optional
 
 METHOD_ROOT = Path(__file__).resolve().parents[1]
 CAMERA_READY_ROOT = Path(__file__).resolve().parents[4]
-DEFAULT_CSV = CAMERA_READY_ROOT / "data/ground_truth/evqa_fixed_final_check_Feb12.csv"
+DEFAULT_CSV = CAMERA_READY_ROOT / "data/ground_truth/evqa_fixed.csv"
 DEFAULT_IMAGE_ROOT = CAMERA_READY_ROOT / "data/images/reflectiva_evqa_inference_images"
 DEFAULT_INAT_MAP = CAMERA_READY_ROOT / "data/images/echosight_inat_val_id2name.json"
 DEFAULT_OUTPUT = METHOD_ROOT / "data_evqa/test_one_hop_Feb14.json"
