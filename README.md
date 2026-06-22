@@ -86,12 +86,10 @@ Useful variants:
 
 ```bash
 MAX_SAMPLES=100 bash scripts/evaluation/run_all_evaluations.sh
-ALLOW_EXACT_MATCH_FALLBACK=1 bash scripts/evaluation/run_all_evaluations.sh
 ```
 
-`MAX_SAMPLES` is useful for a fast dry run. `ALLOW_EXACT_MATCH_FALLBACK=1`
-allows EVQA scoring to proceed without loading the BEM model; use the default
-BEM setting for final reporting.
+`MAX_SAMPLES` is useful for a fast dry run. To reproduce the reported EVQA
+scores, the BEM model must be available and loaded by the EVQA scorer.
 
 ### 4. Optional: Run One Generated-Output Sample
 
@@ -217,8 +215,13 @@ bash scripts/evaluation/run_infoseek_augmented.sh
 
 Each scorer accepts `--max-samples N` and path overrides for ground truth or
 method outputs. InfoSeek scorers use the answer-reward style rules in
-`rag_evaluation/infoseek/answer_reward_utils.py`. EVQA scorers also accept
-`--allow-exact-match-fallback` for dependency-light validation.
+`rag_evaluation/infoseek/answer_reward_utils.py`. EVQA scores reported in the
+paper use BEM, so `BEM_MODEL_DIR` should be configured in `configs/paths.env`
+before running `scripts/setup_local_assets.sh`.
+
+For development only, EVQA scorers accept `--allow-exact-match-fallback` to
+debug parsing and file wiring without loading BEM. Do not use this fallback to
+reproduce paper results.
 
 Augmented scoring evaluates the anchor, intra-category/method1, and
 inter-category/method2 variants for IBA, EchoSight, and Wiki-PRF. Their raw
