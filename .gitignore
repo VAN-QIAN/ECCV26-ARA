@@ -9,6 +9,9 @@ rag_evaluation/evqa_eval/tfhub_cache/
 .cache/
 wandb/
 
+# Local staging area for files to upload to the HuggingFace dataset repo.
+hf_dataset_assets/
+
 # Environment and machine-local files.
 .env
 .env.*
