@@ -1,4 +1,4 @@
-# ECCV26-ARA Camera-Ready Repository
+# [ECCV26] Identifying and Resolving Pitfalls of Knowledge-Based VQA Benchmarks: *A*uditing, *R*epairing, and *A*ugmenting
 
 This repository packages the camera-ready artifacts for our ECCV26 work
 *Identifying and Resolving Pitfalls of Knowledge-Based VQA Benchmarks:
