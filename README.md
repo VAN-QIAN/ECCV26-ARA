@@ -1,6 +1,6 @@
-# ARA Camera-Ready Repository
+# ECCV26-ARA Camera-Ready Repository
 
-This repository packages the camera-ready artifacts for
+This repository packages the camera-ready artifacts for our ECCV26 work
 *Identifying and Resolving Pitfalls of Knowledge-Based VQA Benchmarks:
 Auditing, Repairing, and Augmenting*.
 
@@ -13,11 +13,16 @@ It contains:
 - reusable audit, repair, and augmentation tools under `fixing/`;
 - one-command evaluation wrappers under `scripts/evaluation/`;
 - method inference wrappers under `scripts/methods/`, with code snapshots under
-  `methods/`.
+  `methods/`. Feel free to direct to check the issues Qian has opened in original repos and contact with [Qian](maq5@rpi.edu).
 
 Large original images, KB indexes, checkpoints, and full raw method outputs are
 not duplicated in Git. They are materialized locally through
 `configs/paths.env` and `scripts/setup_local_assets.sh`.
+For the detailed settings to download images and KB indexes, you may refer to the instructions of [EchoSight](https://github.com/Go2Heart/EchoSight/tree/main?tab=readme-ov-file#vqa-questions)
+
+## Acknowledgement
+
+We would like to thank the authors of [EchoSight](https://github.com/Go2Heart/EchoSight), [ReflectiVA](https://github.com/aimagelab/ReflectiVA), [CoMEM](https://github.com/WenyiWU0111/CoMEM) and [Wiki-PRF](https://github.com/cqu-student/Wiki-PRF) for their released code and checkpoint. 
 
 ## Quick Start
 
